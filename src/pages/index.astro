@@ -1,17 +1,177 @@
 ---
+import HeroPreview from "@/components/HeroPreview.astro";
+import ResumePreview from "@/components/ResumePreview.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { templates, examples, THEMES } from "@/data/resume";
+import { faqSchema, organizationSchema, webApplicationSchema } from "@/lib/seo";
 
+const faqs = [
+  {
+    question: "Is MDResume open source?",
+    answer:
+      "Yes. MDResume is planned as an open-source Markdown resume builder that runs as a frontend-first Astro application.",
+  },
+  {
+    question: "Does the editor need a backend?",
+    answer:
+      "No. The core resume editing, template preview, and export workflow are browser-first and do not require a database or server API.",
+  },
+  {
+    question: "Can I use Markdown for the whole resume?",
+    answer:
+      "Yes. The editor uses Markdown with optional frontmatter for name, title, contact details, and links.",
+  },
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout
+  title="Open-source Markdown Resume Builder"
+  description="Create polished resumes from Markdown with live previews, professional templates, and a browser-first editor."
+  schema={[organizationSchema(), webApplicationSchema(), faqSchema(faqs)]}
+>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="eyebrow">Open-source resume tooling</span>
+        <h1>MDResume</h1>
+        <p>
+          A clean Markdown resume editor with live paper previews, recruiter-friendly templates,
+          and a static-first Astro frontend built for fast sharing and easy self-hosting.
+        </p>
+        <div class="hero-actions">
+          <a class="button primary" href="/editor">Open Editor</a>
+          <a class="button" href="/templates">Browse Templates</a>
+          <a class="button ghost" href="/examples">View Examples</a>
+        </div>
+        <div class="hero-stats" aria-label="Product highlights">
+          <div class="stat">
+            <strong>9</strong>
+            <span>Resume themes</span>
+          </div>
+          <div class="stat">
+            <strong>100%</strong>
+            <span>Frontend-first</span>
+          </div>
+          <div class="stat">
+            <strong>SEO</strong>
+            <span>Static Astro pages</span>
+          </div>
+        </div>
+      </div>
+      <HeroPreview />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <span class="eyebrow">Why it stands out</span>
+          <h2>Built like a focused developer tool, not a resume gimmick.</h2>
+        </div>
+        <a class="button" href="/blog/building-open-source-resume-editor">Read the build notes</a>
+      </div>
+      <div class="grid three">
+        <article class="feature-card">
+          <h3>Markdown-native workflow</h3>
+          <p>Keep resume content portable, reviewable, and version-friendly without fighting a document canvas.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Live recruiter preview</h3>
+          <p>Write on one side and see the final paper output immediately, including spacing and theme decisions.</p>
+        </article>
+        <article class="feature-card">
+          <h3>Open-source presentation</h3>
+          <p>The public frontend, tests, SEO structure, and deployment docs are designed to showcase engineering care.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <span class="eyebrow">Templates</span>
+          <h2>Start with a polished layout.</h2>
+        </div>
+        <a class="button" href="/templates">All templates</a>
+      </div>
+      <div class="grid three">
+        {templates.slice(0, 3).map((template) => (
+          <article class="template-card">
+            <div class="paper-wrap">
+              <ResumePreview markdown={template.sampleMarkdown} themeId={template.themeId} compact />
+            </div>
+            <div class="template-card-body">
+              <h3>{template.name}</h3>
+              <p>{template.description}</p>
+              <div class="swatches" aria-label={`${template.name} colors`}>
+                {THEMES.find((item) => item.id === template.themeId)?.swatches.map((swatch) => (
+                  <span class="swatch" style={`background:${swatch}`}></span>
+                ))}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <span class="eyebrow">Examples</span>
+          <h2>Resume examples that explain the structure.</h2>
+        </div>
+        <a class="button" href="/examples">All examples</a>
+      </div>
+      <div class="grid three">
+        {examples.slice(0, 3).map((example) => (
+          <article class="example-card">
+            <h3>{example.title}</h3>
+            <p>{example.summary}</p>
+            <div class="tag-list">
+              {example.tags.map((tag) => <span class="tag">{tag}</span>)}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container callout-band">
+      <span class="eyebrow">Portfolio-ready</span>
+      <h2>Designed to be read by recruiters, engineers, and future collaborators.</h2>
+      <p class="section-lede">
+        The project demonstrates Astro, React islands, static SEO, typed content, tests, and a polished frontend surface
+        around a practical open-source product.
+      </p>
+      <div class="hero-actions">
+        <a class="button primary" href="/editor">Try the editor</a>
+        <a class="button" href="/blog">Read the blog</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <span class="eyebrow">FAQ</span>
+          <h2>Direct answers for first-time visitors.</h2>
+        </div>
+      </div>
+      <div class="grid three">
+        {faqs.map((item) => (
+          <article class="faq-item">
+            <h3>{item.question}</h3>
+            <p>{item.answer}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

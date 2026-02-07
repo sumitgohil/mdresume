@@ -1,0 +1,89 @@
+---
+import "../styles/global.css";
+import { getCanonicalUrl, getImageUrl, getSeoDescription, getSeoTitle, SITE, type SeoProps } from "@/lib/seo";
+
+type Props = SeoProps & {
+  pathname?: string;
+  schema?: unknown[];
+};
+
+const {
+  title,
+  description,
+  image,
+  noIndex = false,
+  disableDefaultSchema = false,
+  pathname = Astro.url.pathname,
+  schema = [],
+} = Astro.props;
+
+const seoTitle = getSeoTitle(title);
+const seoDescription = getSeoDescription(description);
+const canonical = getCanonicalUrl(pathname);
+const imageUrl = getImageUrl(image);
+const activePath = Astro.url.pathname;
+const schemaItems = disableDefaultSchema ? schema : [...schema];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="canonical" href={canonical} />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+    <title>{seoTitle}</title>
+    <meta name="description" content={seoDescription} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={seoTitle} />
+    <meta property="og:description" content={seoDescription} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content={`${SITE.name} product preview`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonical} />
+    <meta name="twitter:title" content={seoTitle} />
+    <meta name="twitter:description" content={seoDescription} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={`${SITE.name} product preview`} />
+    {schemaItems.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="container site-nav" aria-label="Primary">
+        <a class="brand" href="/" aria-label="MDResume home">
+          <span class="brand-mark">MD</span>
+          <span>MDResume</span>
+        </a>
+        <div class="nav-links">
+          <a href="/templates" aria-current={activePath.startsWith("/templates") ? "page" : undefined}>Templates</a>
+          <a href="/examples" aria-current={activePath.startsWith("/examples") ? "page" : undefined}>Examples</a>
+          <a href="/blog" aria-current={activePath.startsWith("/blog") ? "page" : undefined}>Blog</a>
+          <a href="/editor" aria-current={activePath.startsWith("/editor") ? "page" : undefined}>Editor</a>
+        </div>
+        <div class="nav-actions">
+          <a class="button ghost" href="https://github.com/" rel="noreferrer">GitHub</a>
+          <a class="button primary" href="/editor">Open Editor</a>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-row">
+        <div>Open-source Markdown resume builder by Sumit Gohil.</div>
+        <div class="footer-links">
+          <a href="/templates">Templates</a>
+          <a href="/examples">Examples</a>
+          <a href="/blog">Blog</a>
+          <a href="/llms.txt">llms.txt</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

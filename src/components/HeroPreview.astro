@@ -1,0 +1,19 @@
+---
+import ResumePreview from "@/components/ResumePreview.astro";
+import { SAMPLE_MARKDOWN } from "@/data/resume";
+---
+
+<div class="preview-stage" aria-label="MDResume editor preview">
+  <div class="preview-toolbar">
+    <span class="window-dot"></span>
+    <span class="window-dot"></span>
+    <span class="window-dot"></span>
+    <span style="margin-left: 8px;">resume.md / live preview</span>
+  </div>
+  <div class="preview-split">
+    <div class="code-panel">{SAMPLE_MARKDOWN.split("\n").slice(0, 18).join("\n")}</div>
+    <div class="paper-wrap">
+      <ResumePreview markdown={SAMPLE_MARKDOWN} themeId="modern-pro" compact />
+    </div>
+  </div>
+</div>
