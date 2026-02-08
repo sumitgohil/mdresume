@@ -1,0 +1,44 @@
+---
+import ResumePreview from "@/components/ResumePreview.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { templates, THEMES } from "@/data/resume";
+---
+
+<BaseLayout
+  title="Resume Templates"
+  description="Browse professional Markdown resume templates with live sample previews for software, product, and leadership roles."
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Template gallery</span>
+      <h1>Markdown resume templates with live previews.</h1>
+      <p>
+        Each template uses the same Markdown source and changes the presentation layer, so content stays portable while
+        the resume adapts to different roles and hiring contexts.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid three">
+      {templates.map((template) => {
+        const theme = THEMES.find((item) => item.id === template.themeId);
+        return (
+          <article class="template-card">
+            <div class="paper-wrap">
+              <ResumePreview markdown={template.sampleMarkdown} themeId={template.themeId} compact />
+            </div>
+            <div class="template-card-body">
+              <h3>{template.name}</h3>
+              <p>{template.description}</p>
+              <p style="margin-top: 10px;">Best for: {template.audience}</p>
+              <div class="swatches" aria-label={`${template.name} colors`}>
+                {theme?.swatches.map((swatch) => <span class="swatch" style={`background:${swatch}`}></span>)}
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>
