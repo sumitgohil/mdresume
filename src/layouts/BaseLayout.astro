@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { getCanonicalUrl, getImageUrl, getSeoDescription, getSeoTitle, SITE, type SeoProps } from "@/lib/seo";
+import { getCanonicalUrl, getImageUrl, getSeoDescription, getSeoTitle, SITE, webPageSchema, type SeoProps } from "@/lib/seo";
 
 type Props = SeoProps & {
   pathname?: string;
@@ -22,7 +22,7 @@ const seoDescription = getSeoDescription(description);
 const canonical = getCanonicalUrl(pathname);
 const imageUrl = getImageUrl(image);
 const activePath = Astro.url.pathname;
-const schemaItems = disableDefaultSchema ? schema : [...schema];
+const schemaItems = disableDefaultSchema ? schema : [webPageSchema(pathname, title, description), ...schema];
 ---
 
 <!doctype html>

@@ -1,0 +1,21 @@
+# MDResume
+
+MDResume is an open-source Markdown resume builder by Sumit Gohil.
+
+The product provides:
+- A browser-first Markdown resume editor.
+- Live resume preview and print-to-PDF workflow.
+- Professional resume templates for software, product, leadership, and early-career profiles.
+- Static Astro pages for templates, examples, blog content, and SEO discovery.
+
+Primary pages:
+- /: Product overview and open-source positioning.
+- /templates: Resume template gallery with live sample previews.
+- /examples: Practical resume examples by role.
+- /blog: Build notes and resume-writing workflow articles.
+- /editor: Client-only interactive Markdown resume editor.
+
+Technical model:
+- Static Astro frontend for Cloudflare Pages.
+- React island only for the editor.
+- No database, authentication, or backend API is required for the core app.

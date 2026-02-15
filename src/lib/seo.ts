@@ -12,7 +12,7 @@ export const SITE = {
   description:
     "Open-source Markdown resume builder with polished templates, live previews, and a browser-first editor.",
   author: "Sumit Gohil",
-  defaultImage: "/og/default.png",
+  defaultImage: "/og-default.svg",
 };
 
 function normalizePath(pathname = "/") {
@@ -46,6 +46,32 @@ export function organizationSchema() {
     "@type": "Organization",
     name: SITE.author,
     url: SITE.origin,
+  };
+}
+
+export function webPageSchema(pathname = "/", title?: string, description?: string) {
+  const url = getCanonicalUrl(pathname);
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: getSeoTitle(title),
+    description: getSeoDescription(description),
+    url,
+    isPartOf: {
+      "@type": "WebSite",
+      name: SITE.name,
+      url: SITE.origin,
+    },
+  };
+}
+
+export function webSiteSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE.name,
+    url: SITE.origin,
+    description: SITE.description,
   };
 }
 
