@@ -1,0 +1,433 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.625rem;
+  --radius-xl: 0.75rem;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-serif: "Georgia", "Times New Roman", serif;
+}
+
+/* Dark-by-default professional shell (matches reference screenshots) */
+:root {
+  --radius: 0.5rem;
+  --background: oklch(0.16 0.01 250);
+  --foreground: oklch(0.96 0 0);
+  --card: oklch(0.19 0.012 250);
+  --card-foreground: oklch(0.96 0 0);
+  --popover: oklch(0.19 0.012 250);
+  --popover-foreground: oklch(0.96 0 0);
+  --primary: oklch(0.78 0.13 175);
+  --primary-foreground: oklch(0.15 0.02 250);
+  --secondary: oklch(0.24 0.012 250);
+  --secondary-foreground: oklch(0.96 0 0);
+  --muted: oklch(0.22 0.012 250);
+  --muted-foreground: oklch(0.68 0.01 250);
+  --accent: oklch(0.78 0.13 175);
+  --accent-foreground: oklch(0.15 0.02 250);
+  --destructive: oklch(0.6 0.22 25);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.28 0.012 250);
+  --input: oklch(0.28 0.012 250);
+  --ring: oklch(0.78 0.13 175);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+/* === Resume Preview (paper) === */
+.auto-adjusting-active {
+  box-shadow: 0 0 0 3px oklch(0.78 0.13 175 / 0.25) !important;
+  pointer-events: none;
+}
+
+.resume-preview {
+  background: white;
+  color: var(--rp-text-color, #1f2937);
+  min-height: 100%;
+  font-family: var(--rp-body-font, "Inter", sans-serif);
+  font-size: var(--rp-font-size, 15px);
+  line-height: var(--rp-line-height, 1.6);
+  position: relative;
+  border-top: var(--rp-top-rule-width, 0) solid var(--rp-accent-color, #2563eb);
+  transition:
+    font-size 0.08s ease-out,
+    line-height 0.08s ease-out;
+}
+
+.resume-preview::before {
+  content: "";
+  display: var(--rp-side-rule-display, none);
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--rp-side-rule-width, 6px);
+  background: var(--rp-accent-color, #2563eb);
+}
+
+.resume-preview h1,
+.resume-preview h2,
+.resume-preview h3,
+.resume-preview h4 {
+  font-family: var(--rp-heading-font, "Inter", sans-serif);
+  font-weight: var(--rp-heading-weight, 700);
+  line-height: 1.2;
+  margin-top: var(--rp-section-spacing, 24px);
+  margin-bottom: calc(var(--rp-paragraph-spacing, 8px) * 0.75);
+  color: var(--rp-heading-color, #111);
+}
+.resume-preview > *:first-child,
+.resume-preview .resume-header + * {
+  margin-top: 0;
+}
+.resume-preview h1 {
+  font-size: calc(var(--rp-font-size, 15px) * var(--rp-heading-scale, 1.2) * 1.6);
+}
+.resume-preview h2 {
+  font-size: calc(var(--rp-font-size, 15px) * var(--rp-h2-scale, var(--rp-heading-scale, 1.2)));
+  text-transform: var(--rp-h2-transform, uppercase);
+  letter-spacing: var(--rp-h2-letter-spacing, 0.06em);
+  color: var(--rp-h2-color, var(--rp-heading-color, #111));
+  display: var(--rp-h2-display, block);
+  align-items: center;
+  gap: 10px;
+}
+.resume-preview.with-dividers h2 {
+  border-bottom: var(--rp-h2-border-width, 1px) solid var(--rp-divider-color, #e5e7eb);
+  padding-bottom: var(--rp-h2-padding-bottom, 6px);
+}
+.resume-preview h2::after {
+  content: "";
+  display: var(--rp-h2-after-display, none);
+  flex: 1;
+  height: 1px;
+  background: var(--rp-divider-color, #e5e7eb);
+}
+.resume-preview h3 {
+  font-size: calc(var(--rp-font-size, 15px) * var(--rp-h3-scale, 1.05));
+  color: var(--rp-h3-color, var(--rp-heading-color, #111));
+  margin-bottom: calc(var(--rp-paragraph-spacing, 8px) * 0.45);
+}
+.resume-preview p,
+.resume-preview ul,
+.resume-preview ol {
+  margin: var(--rp-paragraph-spacing, 8px) 0;
+}
+.resume-preview ul {
+  padding-left: 1.25em;
+  list-style: disc;
+}
+.resume-preview ol {
+  padding-left: 1.25em;
+}
+.resume-preview li {
+  margin: var(--rp-list-item-margin, 4px) 0;
+}
+.resume-preview li::marker {
+  color: var(--rp-accent-color, #2563eb);
+}
+.resume-preview a {
+  color: var(--rp-accent-color, #2563eb);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+.resume-preview .resume-accent {
+  color: var(--rp-accent-color, #2563eb);
+  font-weight: 600;
+}
+.resume-preview .resume-muted {
+  color: #6b7280;
+}
+.resume-preview em {
+  color: var(--rp-muted-color, #6b7280);
+  font-style: italic;
+}
+.resume-preview strong {
+  color: var(--rp-strong-color, #111);
+}
+.resume-preview hr {
+  border: none;
+  border-top: 1px solid var(--rp-divider-color, #e5e7eb);
+  margin: calc(var(--rp-section-spacing, 24px) * var(--rp-hr-spacing-scale, 1)) 0;
+}
+
+.resume-header {
+  text-align: var(--rp-header-align, center);
+  margin-bottom: var(--rp-section-spacing, 24px);
+  padding-bottom: calc(var(--rp-section-spacing, 24px) * var(--rp-header-padding-scale, 0.7));
+  border-bottom: var(--rp-header-rule-width, 2px) solid var(--rp-divider-color, #e5e7eb);
+}
+.resume-header .name {
+  font-family: var(--rp-heading-font, "Inter", sans-serif);
+  font-size: calc(var(--rp-font-size, 15px) * var(--rp-name-scale, 2.4));
+  font-weight: var(--rp-name-weight, 800);
+  letter-spacing: var(--rp-name-letter-spacing, 0);
+  text-transform: var(--rp-name-transform, none);
+  color: var(--rp-heading-color, #111);
+}
+.resume-header .title {
+  font-size: calc(var(--rp-font-size, 15px) * 1.05);
+  color: var(--rp-muted-color, #4b5563);
+  margin-top: 4px;
+  font-weight: 500;
+}
+.resume-header .contact {
+  margin-top: 12px;
+  font-size: calc(var(--rp-font-size, 15px) * 0.88);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: var(--rp-header-contact-justify, center);
+  gap: 4px 16px;
+  color: var(--rp-muted-color, #4b5563);
+}
+
+/* === Themes === */
+.theme-modern-pro {
+  --rp-accent-color: #2563eb;
+  --rp-heading-color: #111827;
+  --rp-text-color: #243044;
+  --rp-muted-color: #64748b;
+  --rp-divider-color: #dbe3ef;
+  --rp-header-align: left;
+  --rp-header-contact-justify: flex-start;
+  --rp-header-rule-width: 1px;
+  --rp-name-scale: 1.65;
+  --rp-name-weight: 800;
+  --rp-h2-scale: 0.82;
+  --rp-h2-color: #2563eb;
+  --rp-h2-letter-spacing: 0.08em;
+  --rp-h2-border-width: 1px;
+  --rp-h2-padding-bottom: 5px;
+}
+.theme-classic-elegant {
+  --rp-accent-color: #111827;
+  --rp-heading-color: #1f2937;
+  --rp-text-color: #252a34;
+  --rp-muted-color: #5f6878;
+  --rp-divider-color: #9ca3af;
+  --rp-header-align: center;
+  --rp-header-rule-width: 1px;
+  --rp-name-scale: 1.5;
+  --rp-name-weight: 700;
+  --rp-h2-scale: 0.78;
+  --rp-h2-letter-spacing: 0.05em;
+  --rp-h2-border-width: 1px;
+  --rp-h2-padding-bottom: 3px;
+  font-family: "Georgia", "Times New Roman", serif;
+}
+.theme-classic-elegant h1,
+.theme-classic-elegant h2,
+.theme-classic-elegant h3 {
+  font-family: "Georgia", serif;
+}
+.theme-minimal {
+  --rp-accent-color: #334155;
+  --rp-heading-color: #0f172a;
+  --rp-text-color: #283548;
+  --rp-muted-color: #64748b;
+  --rp-divider-color: #e2e8f0;
+  --rp-header-align: left;
+  --rp-header-contact-justify: flex-start;
+  --rp-header-rule-width: 0;
+  --rp-name-scale: 1.55;
+  --rp-name-weight: 700;
+  --rp-h2-scale: 0.78;
+  --rp-h2-border-width: 0;
+  --rp-h2-padding-bottom: 0;
+  --rp-list-item-margin: 2px;
+}
+.theme-minimal h2 {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #475569 !important;
+  border: none !important;
+}
+.theme-creative-bold {
+  --rp-accent-color: #2563eb;
+  --rp-heading-color: #172554;
+  --rp-text-color: #243044;
+  --rp-muted-color: #5f6f89;
+  --rp-divider-color: #d6e4ff;
+  --rp-top-rule-width: 6px;
+  --rp-header-align: left;
+  --rp-header-contact-justify: flex-start;
+  --rp-header-rule-width: 1px;
+  --rp-name-scale: 1.75;
+  --rp-h2-scale: 0.8;
+  --rp-h2-color: #172554;
+  --rp-h2-display: flex;
+  --rp-h2-after-display: block;
+  --rp-h2-border-width: 0;
+  --rp-h2-padding-bottom: 0;
+}
+.theme-creative-bold .resume-header .name {
+  color: #2563eb;
+}
+.theme-executive {
+  --rp-accent-color: #9a3412;
+  --rp-heading-color: #111827;
+  --rp-text-color: #20242c;
+  --rp-muted-color: #5b6472;
+  --rp-divider-color: #d4d4d8;
+  --rp-header-align: left;
+  --rp-header-contact-justify: flex-start;
+  --rp-header-rule-width: 2px;
+  --rp-name-scale: 1.7;
+  --rp-name-weight: 700;
+  --rp-h2-scale: 0.78;
+  --rp-h2-color: #111827;
+  --rp-h2-letter-spacing: 0.09em;
+  --rp-h2-border-width: 1px;
+  --rp-h2-padding-bottom: 4px;
+  font-family: "Georgia", "Times New Roman", serif;
+}
+.theme-executive h2 {
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+}
+.theme-executive .resume-header .name,
+.theme-executive h1,
+.theme-executive h2,
+.theme-executive h3 {
+  font-family: "Georgia", serif;
+}
+.theme-tech-startup {
+  --rp-accent-color: #3b82f6;
+  --rp-heading-color: #1e293b;
+  --rp-text-color: #253247;
+  --rp-muted-color: #64748b;
+  --rp-divider-color: #dbeafe;
+  --rp-header-align: left;
+  --rp-header-contact-justify: flex-start;
+  --rp-header-rule-width: 1px;
+  --rp-name-scale: 1.45;
+  --rp-h2-scale: 0.76;
+  --rp-h2-color: #2563eb;
+  --rp-list-item-margin: 2px;
+}
+.theme-nature-green {
+  --rp-accent-color: #0f766e;
+  --rp-heading-color: #1f2937;
+  --rp-text-color: #27313f;
+  --rp-muted-color: #64748b;
+  --rp-divider-color: #d1d5db;
+  --rp-header-align: left;
+  --rp-header-contact-justify: flex-start;
+  --rp-header-rule-width: 1px;
+  --rp-name-scale: 1.45;
+  --rp-h2-scale: 0.76;
+  --rp-h2-color: #334155;
+  --rp-list-item-margin: 2px;
+}
+.theme-warm-sunset {
+  --rp-accent-color: #f59e0b;
+  --rp-heading-color: #1f2937;
+  --rp-text-color: #2d3340;
+  --rp-muted-color: #6b7280;
+  --rp-divider-color: #fed7aa;
+  --rp-top-rule-width: 6px;
+  --rp-header-align: left;
+  --rp-header-contact-justify: flex-start;
+  --rp-header-rule-width: 1px;
+  --rp-name-scale: 1.55;
+  --rp-h2-scale: 0.78;
+  --rp-h2-color: #92400e;
+}
+.theme-rose-elegant {
+  --rp-accent-color: #ef4444;
+  --rp-heading-color: #1f2937;
+  --rp-text-color: #283142;
+  --rp-muted-color: #64748b;
+  --rp-divider-color: #fecaca;
+  --rp-top-rule-width: 6px;
+  --rp-header-align: left;
+  --rp-header-contact-justify: flex-start;
+  --rp-header-rule-width: 1px;
+  --rp-name-scale: 1.55;
+  --rp-h2-scale: 0.78;
+  --rp-h2-color: #b91c1c;
+  --rp-h2-display: flex;
+  --rp-h2-after-display: block;
+  --rp-h2-border-width: 0;
+  --rp-h2-padding-bottom: 0;
+}
+
+/* Print: only the resume with pixel-perfect margins and dimensions */
+@media print {
+  @page {
+    margin: 0 !important; /* Strips browser default headers/footers and margins */
+    size: auto;
+  }
+
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  #resume-print-area,
+  #resume-print-area * {
+    visibility: visible;
+  }
+
+  #resume-print-area {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: var(
+      --rp-print-width,
+      210mm
+    ) !important; /* Locks print width physically to prevent text re-wrapping */
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    transform: none !important;
+    page-break-after: avoid !important;
+    page-break-before: avoid !important;
+    break-after: avoid !important;
+    break-before: avoid !important;
+  }
+}
+
+/* Hide scrollbars in editor pane chrome */
+.monaco-editor .scrollbar {
+  z-index: 0;
+}

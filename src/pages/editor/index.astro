@@ -1,14 +1,28 @@
 ---
-import { MarkdownResumeEditor } from "@/components/editor/MarkdownResumeEditor";
-import BaseLayout from "@/layouts/BaseLayout.astro";
+import "@/styles.css";
+import { ResumeMarkdownApp } from "@/components/editor/ResumeMarkdownApp";
 ---
 
-<BaseLayout
-  title="Markdown Resume Editor"
-  description="Write a resume in Markdown, preview it live, switch templates, import or export Markdown, and print to PDF in the browser."
-  noIndex={true}
->
-  <section class="editor-shell">
-    <MarkdownResumeEditor client:only="react" />
-  </section>
-</BaseLayout>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <title>ResumeOS — Production-grade Markdown Resume Editor</title>
+    <meta
+      name="description"
+      content="Write resumes in markdown with live preview, 10 professional themes, full typography controls and one-click PDF export."
+    />
+    <meta property="og:title" content="ResumeOS" />
+    <meta
+      property="og:description"
+      content="Markdown resume editor with live preview, themes, and PDF export."
+    />
+  </head>
+  <body>
+    <ResumeMarkdownApp client:only="react" />
+  </body>
+</html>
