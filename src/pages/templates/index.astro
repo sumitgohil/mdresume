@@ -5,21 +5,21 @@ import { templates, THEMES } from "@/data/resume";
 ---
 
 <BaseLayout
-  title="Resume Templates"
+  title="Resume Themes"
   description="Browse professional Markdown resume templates with live sample previews for software, product, and leadership roles."
 >
   <section class="page-hero">
     <div class="container">
-      <span class="eyebrow">Template gallery</span>
-      <h1>Markdown resume templates with live previews.</h1>
+      <span class="eyebrow">Theme Gallery</span>
+      <h1>Markdown resume themes with live previews.</h1>
       <p>
-        Each template uses the same Markdown source and changes the presentation layer, so content stays portable while
-        the resume adapts to different roles and hiring contexts.
+        Each template uses the exact same Markdown source and changes the presentation layer dynamically.
+        Your resume content stays completely portable while shifting styles instantly.
       </p>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section border-top">
     <div class="container grid three">
       {templates.map((template) => {
         const theme = THEMES.find((item) => item.id === template.themeId);
@@ -31,9 +31,22 @@ import { templates, THEMES } from "@/data/resume";
             <div class="template-card-body">
               <h3>{template.name}</h3>
               <p>{template.description}</p>
-              <p style="margin-top: 10px;">Best for: {template.audience}</p>
-              <div class="swatches" aria-label={`${template.name} colors`}>
-                {theme?.swatches.map((swatch) => <span class="swatch" style={`background:${swatch}`}></span>)}
+              <p style="margin-top: 10px; font-size: 13.5px; color: var(--muted); font-weight: 500;">
+                Best for: <strong style="color: var(--foreground); font-weight: 600;">{template.audience}</strong>
+              </p>
+              <div class="card-action-row" style="margin-top: auto; padding-top: 20px;">
+                <div class="swatches" style="margin: 0; padding: 0;" aria-label={`${template.name} colors`}>
+                  {theme?.swatches.map((swatch) => (
+                    <span class="swatch" style={`background:${swatch}`}></span>
+                  ))}
+                </div>
+                <a class="card-cta-btn" href={`/editor?theme=${template.themeId}`}>
+                  Use Template
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
               </div>
             </div>
           </article>

@@ -1,17 +1,68 @@
 ---
 import ResumePreview from "@/components/ResumePreview.astro";
 import { SAMPLE_MARKDOWN } from "@/data/resume";
+
+// Simple regex-based syntax highlighter for the landing page mockup
+function highlightMarkdown(md: string) {
+  const lines = md.split("\n").slice(0, 18);
+  return lines.map((line) => {
+    if (line.trim() === "---") {
+      return `<span class="syntax-divider">---</span>`;
+    }
+    
+    // Frontmatter key-value pairs
+    if (line.includes(":") && !line.startsWith("##") && !line.startsWith("###") && !line.startsWith("- ")) {
+      const index = line.indexOf(":");
+      const key = line.slice(0, index);
+      const val = line.slice(index + 1);
+      if (/^[a-zA-Z0-9_-]+$/.test(key.trim())) {
+        return `<span class="syntax-key">${key}</span>:<span class="syntax-value">${val}</span>`;
+      }
+    }
+    
+    let highlighted = line;
+    
+    // Headings
+    if (line.startsWith("## ")) {
+      highlighted = `<span class="syntax-h2">## ${line.slice(3)}</span>`;
+    } else if (line.startsWith("### ")) {
+      highlighted = `<span class="syntax-h3">### ${line.slice(4)}</span>`;
+    }
+    
+    // Bold markers
+    highlighted = highlighted.replace(/\*\*(.*?)\*\*/g, '<span class="syntax-bold">**$1**</span>');
+    
+    // Bullets
+    if (line.startsWith("- ")) {
+      highlighted = `<span class="syntax-bullet">-</span> ${highlighted.slice(2)}`;
+    }
+    
+    return highlighted;
+  });
+}
+
+const highlightedLines = highlightMarkdown(SAMPLE_MARKDOWN);
 ---
 
 <div class="preview-stage" aria-label="MDResume editor preview">
   <div class="preview-toolbar">
-    <span class="window-dot"></span>
-    <span class="window-dot"></span>
-    <span class="window-dot"></span>
-    <span style="margin-left: 8px;">resume.md / live preview</span>
+    <div class="toolbar-dots">
+      <span class="window-dot"></span>
+      <span class="window-dot"></span>
+      <span class="window-dot"></span>
+    </div>
+    <span class="toolbar-title">resume.md — live preview</span>
+    <div style="width: 48px;"></div>
   </div>
   <div class="preview-split">
-    <div class="code-panel">{SAMPLE_MARKDOWN.split("\n").slice(0, 18).join("\n")}</div>
+    <div class="code-panel">
+      {highlightedLines.map((line, idx) => (
+        <div class="code-line">
+          <span class="line-number">{idx + 1}</span>
+          <span class="line-content" set:html={line || "&nbsp;"}></span>
+        </div>
+      ))}
+    </div>
     <div class="paper-wrap">
       <ResumePreview markdown={SAMPLE_MARKDOWN} themeId="modern-pro" compact />
     </div>

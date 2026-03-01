@@ -10,16 +10,16 @@ import { examples, findTemplate } from "@/data/resume";
 >
   <section class="page-hero">
     <div class="container">
-      <span class="eyebrow">Example resumes</span>
+      <span class="eyebrow">Example Resumes</span>
       <h1>Resume examples for real hiring conversations.</h1>
       <p>
-        Use these examples to understand structure, section order, bullet density, and how a Markdown source maps into a
-        polished resume preview.
+        Analyze structure, section hierarchies, and spacing. Use any of these pre-filled templates
+        as a solid boilerplate to accelerate your writing process.
       </p>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section border-top">
     <div class="container grid two">
       {examples.map((example) => {
         const template = findTemplate(example.templateId);
@@ -31,8 +31,20 @@ import { examples, findTemplate } from "@/data/resume";
             <div class="template-card-body">
               <h3>{example.title}</h3>
               <p>{example.summary}</p>
-              <div class="tag-list">
+              <div class="tag-list" style="margin-bottom: 24px;">
                 {example.tags.map((tag) => <span class="tag">{tag}</span>)}
+              </div>
+              <div class="card-action-row" style="margin-top: auto; padding-top: 20px;">
+                <span style="font-size: 13.5px; color: var(--muted); font-weight: 500;">
+                  Layout: <strong style="color: var(--foreground); font-weight: 600;">{template.name}</strong>
+                </span>
+                <a class="card-cta-btn" href={`/editor?example=${example.id}`}>
+                  Edit Example
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
               </div>
             </div>
           </article>

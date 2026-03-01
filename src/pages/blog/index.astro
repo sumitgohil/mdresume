@@ -16,21 +16,34 @@ const posts = (await getCollection("blog")).sort(
       <span class="eyebrow">Blog</span>
       <h1>Build notes and resume writing workflows.</h1>
       <p>
-        Short articles covering the product architecture, Markdown workflow, SEO-first Astro pages, and practical resume
-        structure.
+        Read our collection of short articles covering open-source product architecture,
+        Markdown document workflows, ATS screening mechanics, and design best practices.
       </p>
     </div>
   </section>
 
-  <section class="section">
+  <section class="section border-top">
     <div class="container grid two">
       {posts.map((post) => (
-        <article class="blog-card">
-          <span class="eyebrow">{post.data.publishDate.toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric" })}</span>
-            <h3><a href={`/blog/${post.id}`}>{post.data.title}</a></h3>
-          <p>{post.data.description}</p>
-          <div class="tag-list">
-            {post.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+        <article class="blog-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 32px 28px; min-height: 240px;">
+          <div>
+            <span class="eyebrow" style="padding: 2px 10px; font-size: 10px; margin-bottom: 16px;">
+              {post.data.publishDate.toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric" })}
+            </span>
+            <h3 style="margin-top: 14px; margin-bottom: 10px;"><a href={`/blog/${post.id}`} style="color: inherit; text-decoration: none;">{post.data.title}</a></h3>
+            <p style="margin-bottom: 20px;">{post.data.description}</p>
+            <div class="tag-list" style="margin-bottom: 24px;">
+              {post.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+            </div>
+          </div>
+          <div class="card-action-row" style="margin-top: auto; padding-top: 18px; border-top: 1px solid color-mix(in srgb, var(--border) 40%, transparent);">
+            <a class="card-cta-btn" href={`/blog/${post.id}`}>
+              Read Article
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
           </div>
         </article>
       ))}

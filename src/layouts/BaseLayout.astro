@@ -53,6 +53,10 @@ const schemaItems = disableDefaultSchema ? schema : [webPageSchema(pathname, tit
     {schemaItems.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
   </head>
   <body>
+    <div class="announcement-banner">
+      <span class="banner-badge">Open Source</span>
+      <span class="banner-text">Fully client-side & privacy-first Markdown Resume Editor. No signup required.</span>
+    </div>
     <header class="site-header">
       <nav class="container site-nav" aria-label="Primary">
         <a class="brand" href="/" aria-label="MDResume home">
