@@ -674,10 +674,10 @@ main {
   justify-content: center;
   align-items: flex-start;
   width: 100%;
-  aspect-ratio: 1 / 1.25;
+  aspect-ratio: 1 / 1.15;
   overflow: hidden;
   background: color-mix(in srgb, var(--background) 65%, #000);
-  border-bottom: none;
+  border-bottom: 1px solid var(--border);
   padding: 24px 24px 0 24px;
 }
 
@@ -693,18 +693,20 @@ main {
 }
 
 .compact-preview {
-  container-type: inline-size;
-  width: 100% !important;
+  width: 260px !important;
+  height: 360px !important;
   aspect-ratio: 1 / 1.414 !important;
   min-height: auto !important;
-  height: auto !important;
-  padding: 8cqw 6cqw !important;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45) !important;
-  border-radius: 6px 6px 0 0 !important;
-  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+  padding: 22px 18px !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4) !important;
+  border-radius: 4px 4px 0 0 !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
   border-bottom: none !important;
   background: white !important;
   color: #1f2937 !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
   transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
@@ -714,39 +716,41 @@ main {
 }
 
 .compact-preview h1 {
-  font-size: 7cqw !important;
-  margin-bottom: 1.5cqw !important;
+  font-size: 15px !important;
+  margin-bottom: 4px !important;
   font-weight: 800 !important;
   line-height: 1.1 !important;
   color: #111827 !important;
 }
 
 .compact-preview .resume-meta {
-  font-size: 2.6cqw !important;
-  margin-bottom: 3cqw !important;
+  font-size: 7.5px !important;
+  margin-bottom: 10px !important;
   color: #4b5563 !important;
 }
 
 .compact-preview h2 {
-  font-size: 3.2cqw !important;
-  margin-top: 4.5cqw !important;
-  margin-bottom: 2cqw !important;
-  padding-bottom: 1.5cqw !important;
+  font-size: 9px !important;
+  margin-top: 12px !important;
+  margin-bottom: 6px !important;
+  padding-bottom: 4px !important;
   border-bottom: 1px solid #e5e7eb !important;
   color: var(--rp-accent-color, #2563eb) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
 }
 
 .compact-preview h3 {
-  font-size: 2.9cqw !important;
-  margin-top: 3.5cqw !important;
-  margin-bottom: 1.5cqw !important;
+  font-size: 8px !important;
+  margin-top: 8px !important;
+  margin-bottom: 4px !important;
   color: #111827 !important;
 }
 
 .compact-preview p {
-  font-size: 2.5cqw !important;
-  margin: 1.2cqw 0 !important;
-  line-height: 1.45 !important;
+  font-size: 7.5px !important;
+  margin: 4px 0 !important;
+  line-height: 1.4 !important;
   color: #374151 !important;
 }
 
