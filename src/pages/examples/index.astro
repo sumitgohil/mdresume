@@ -11,39 +11,35 @@ import { examples, findTemplate } from "@/data/resume";
   <section class="page-hero">
     <div class="container">
       <span class="eyebrow">Example Resumes</span>
-      <h1>Resume examples for real hiring conversations.</h1>
+      <h1>Resume examples for real hiring conversations</h1>
       <p>
-        Analyze structure, section hierarchies, and spacing. Use any of these pre-filled templates
-        as a solid boilerplate to accelerate your writing process.
+        Start with role-specific Markdown samples that show structure, scope, measurable outcomes, and clean formatting.
       </p>
     </div>
   </section>
 
   <section class="section border-top">
-    <div class="container grid two">
+    <div class="container grid three examples-grid">
       {examples.map((example) => {
         const template = findTemplate(example.templateId);
         return (
-          <article class="template-card">
+          <article class="template-card example-preview-card">
             <div class="paper-wrap">
               <ResumePreview markdown={example.markdown} themeId={template.themeId} compact />
             </div>
             <div class="template-card-body">
+              <span class="mini-label">{example.role}</span>
               <h3>{example.title}</h3>
               <p>{example.summary}</p>
-              <div class="tag-list" style="margin-bottom: 24px;">
+              <div class="tag-list">
                 {example.tags.map((tag) => <span class="tag">{tag}</span>)}
               </div>
-              <div class="card-action-row" style="margin-top: auto; padding-top: 20px;">
-                <span style="font-size: 13.5px; color: var(--muted); font-weight: 500;">
-                  Layout: <strong style="color: var(--foreground); font-weight: 600;">{template.name}</strong>
+              <div class="card-action-row">
+                <span class="template-audience">
+                  Layout: <strong>{template.name}</strong>
                 </span>
                 <a class="card-cta-btn" href={`/editor?example=${example.id}`}>
-                  Edit Example
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
+                  Edit example ->
                 </a>
               </div>
             </div>

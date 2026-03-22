@@ -570,7 +570,7 @@ CRITICAL RESTRICTION: Return ONLY the cover letter in beautiful Markdown format 
             <Sparkles className="size-4 text-indigo-400 fill-indigo-400 animate-pulse" />
           </div>
           <span className="bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-sm font-bold tracking-tight text-transparent">
-            ResumeOS AI Assistant
+            MDResume AI Assistant
           </span>
         </div>
         <Button variant="ghost" size="icon" className="size-8" onClick={toggleAIPanel}>

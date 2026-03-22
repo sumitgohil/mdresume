@@ -1,6 +1,7 @@
 import { useActiveResume } from "@/store/resumeStore";
 import { useEffect, useState } from "react";
 import { validateResumeMarkdown } from "@/lib/resumeSchema";
+import { THEMES } from "@/lib/themeRegistry";
 
 function timeAgo(ts: number): string {
   const s = Math.floor((Date.now() - ts) / 1000);
@@ -27,6 +28,7 @@ export function StatusBar() {
   const issues = validateResumeMarkdown(doc.markdown);
   const errors = issues.filter((issue) => issue.severity === "error").length;
   const warnings = issues.filter((issue) => issue.severity === "warning").length;
+  const themeLabel = THEMES.find((theme) => theme.id === doc.theme)?.label || doc.theme;
 
   return (
     <footer className="h-7 border-t border-border bg-card text-muted-foreground flex items-center px-4 gap-4 text-[11px] shrink-0">
@@ -40,7 +42,7 @@ export function StatusBar() {
         </span>
       )}
       <div className="flex-1" />
-      <span className="capitalize">Theme: {doc.theme.replace("-", " ")}</span>
+      <span>Theme: {themeLabel}</span>
       <span>Updated {timeAgo(doc.updatedAt)}</span>
     </footer>
   );

@@ -11,10 +11,9 @@ import { templates, THEMES } from "@/data/resume";
   <section class="page-hero">
     <div class="container">
       <span class="eyebrow">Theme Gallery</span>
-      <h1>Markdown resume themes with live previews.</h1>
+      <h1>Markdown resume themes with live previews</h1>
       <p>
-        Each template uses the exact same Markdown source and changes the presentation layer dynamically.
-        Your resume content stays completely portable while shifting styles instantly.
+        Pick a recruiter-friendly layout, keep your Markdown portable, and tune the details in the editor.
       </p>
     </div>
   </section>
@@ -31,21 +30,17 @@ import { templates, THEMES } from "@/data/resume";
             <div class="template-card-body">
               <h3>{template.name}</h3>
               <p>{template.description}</p>
-              <p style="margin-top: 10px; font-size: 13.5px; color: var(--muted); font-weight: 500;">
-                Best for: <strong style="color: var(--foreground); font-weight: 600;">{template.audience}</strong>
+              <p class="template-audience">
+                Best for: <strong>{template.audience}</strong>
               </p>
-              <div class="card-action-row" style="margin-top: auto; padding-top: 20px;">
-                <div class="swatches" style="margin: 0; padding: 0;" aria-label={`${template.name} colors`}>
+              <div class="card-action-row">
+                <div class="swatches compact-swatches" aria-label={`${template.name} colors`}>
                   {theme?.swatches.map((swatch) => (
                     <span class="swatch" style={`background:${swatch}`}></span>
                   ))}
                 </div>
                 <a class="card-cta-btn" href={`/editor?theme=${template.themeId}`}>
-                  Use Template
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
+                  Use template ->
                 </a>
               </div>
             </div>

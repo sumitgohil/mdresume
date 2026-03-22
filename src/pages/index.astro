@@ -1,27 +1,66 @@
 ---
-import HeroPreview from "@/components/HeroPreview.astro";
+import { getCollection } from "astro:content";
 import ResumePreview from "@/components/ResumePreview.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { templates, examples, THEMES } from "@/data/resume";
 import { faqSchema, organizationSchema, webApplicationSchema } from "@/lib/seo";
 
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
+);
+
 const faqs = [
   {
-    question: "Is MDResume open source?",
+    question: "Is MDResume free?",
     answer:
-      "Yes. MDResume is planned as an open-source Markdown resume builder that runs as a frontend-first static application.",
+      "Yes. MDResume is open source, runs in your browser, and does not require an account to write or export a resume.",
   },
   {
-    question: "Does the editor need a backend?",
+    question: "Will my resume work with ATS systems?",
     answer:
-      "No. The core resume editing, template preview, and export workflow are browser-first and do not require a database or server API.",
+      "The templates use clean single-column structures, standard section names, and selectable text exports to keep parsing straightforward.",
   },
   {
-    question: "Can I use Markdown for the whole resume?",
+    question: "How does the AI assistant work?",
     answer:
-      "Yes. The editor uses Markdown with optional frontmatter for name, title, contact details, and links.",
+      "You can bring your own provider key and use AI for bullet rewrites, job keyword checks, and cover-letter drafts. Keys stay in your browser.",
+  },
+  {
+    question: "Can I keep my resume in Markdown?",
+    answer:
+      "Yes. Your resume source remains Markdown with frontmatter for contact details, so it is portable, diffable, and easy to edit.",
+  },
+  {
+    question: "Do I need design skills?",
+    answer:
+      "No. Write the content, choose a theme, adjust typography if needed, and export a PDF when the preview looks right.",
+  },
+  {
+    question: "Can I self-host it?",
+    answer:
+      "Yes. The public pages are Astro and the editor runs as a client-side app, so it can be hosted on common static platforms.",
   },
 ];
+
+const benefitCards = [
+  {
+    title: "Distraction-free editor",
+    body: "A focused Markdown editor with live preview, import/export controls, and no document formatting side quests.",
+    icon: "edit",
+  },
+  {
+    title: "ATS-minded structure",
+    body: "Single-column layouts, readable section names, and selectable text help your resume stay easy to parse.",
+    icon: "search",
+  },
+  {
+    title: "Private AI helpers",
+    body: "Use your own provider key for bullet rewrites, job keyword checks, and cover-letter drafts when you need them.",
+    icon: "spark",
+  },
+];
+
+const articleArt = ["article-art-terminal", "article-art-keywords", "article-art-notes", "article-art-code"];
 ---
 
 <BaseLayout
@@ -29,178 +68,134 @@ const faqs = [
   description="Create polished resumes from Markdown with live previews, professional templates, and a browser-first editor."
   schema={[organizationSchema(), webApplicationSchema(), faqSchema(faqs)]}
 >
-  <!-- HERO SECTION -->
   <section class="hero">
-    <div class="container hero-grid">
-      <div>
-        <span class="eyebrow">
-          Free & Open Source
-        </span>
-        <h1>Markdown Resume Builder — Land More Interviews</h1>
+    <div class="container hero-grid hero-grid-wide">
+      <div class="hero-copy">
+        <span class="eyebrow">Free & Open Source</span>
+        <h1>Markdown Resume Builder for resumes that get read</h1>
         <p>
-          Build your resume in Markdown, choose a professional theme, and export a pixel-perfect,
-          ATS-friendly PDF in minutes. Free, open source, and no account required.
+          Write in Markdown, choose a clean theme, and export a polished PDF without fighting word processor layouts.
+          Built for developers and technical professionals who care about clear content.
         </p>
         <div class="hero-actions">
           <a class="button primary" href="/editor">Start Building for Free</a>
           <a class="button" href="/templates">Browse Themes</a>
         </div>
-        <div class="hero-stats" aria-label="Product highlights">
-          <div class="stat">
-            <strong>10+</strong>
-            <span>ATS Themes</span>
-          </div>
-          <div class="stat">
-            <strong>100%</strong>
-            <span>Client-Side</span>
-          </div>
-          <div class="stat">
-            <strong>SEO</strong>
-            <span>Static-First</span>
-          </div>
-        </div>
       </div>
-      <HeroPreview />
+      <figure class="hero-screenshot-frame" aria-label="MDResume editor screenshot">
+        <img src="/editor.png" alt="MDResume split editor with Markdown on the left and live resume preview on the right" />
+      </figure>
     </div>
   </section>
 
-  <!-- THREE-STEP PROCESS -->
-  <section class="section step-section">
+  <section class="section compact-section">
     <div class="container">
-      <div class="section-center-header">
-        <span class="eyebrow">How it works</span>
-        <h2>From blank page to polished PDF in 3 steps</h2>
-        <p class="section-lede center-lede">No design skills required. No account needed. Just your words.</p>
+      <div class="section-header compact-header">
+        <div>
+          <h2>From blank page to polished PDF in 3 steps</h2>
+          <p class="section-lede">No design skills required. No account needed. Just your words.</p>
+        </div>
       </div>
       <div class="grid three step-grid">
-        <div class="step-card">
-          <div class="step-badge">
-            <span class="step-num">01</span>
-          </div>
+        <article class="step-card">
+          <div class="step-badge"><span class="step-num">1</span></div>
           <h3>Write in Markdown</h3>
-          <p>
-            Use our distraction-free editor to write your resume. Markdown keeps content portable,
-            version-control friendly, and clean of word processor mess.
-          </p>
-        </div>
-        <div class="step-card">
-          <div class="step-badge">
-            <span class="step-num">02</span>
-          </div>
-          <h3>Pick Your Theme</h3>
-          <p>
-            Choose one of our recruiter-first, single-column templates. Fine-tune your fonts,
-            colors, margins, and section spacing in real-time.
-          </p>
-        </div>
-        <div class="step-card">
-          <div class="step-badge">
-            <span class="step-num">03</span>
-          </div>
-          <h3>Export ATS-ready PDF</h3>
-          <p>
-            Export as a high-fidelity, selectable-text PDF. Your resume is structured to parse
-            flawlessly on any recruiter screening platform.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FEATURES / BENEFITS -->
-  <section class="section border-top">
-    <div class="container">
-      <div class="section-header">
-        <div>
-          <span class="eyebrow">Built for Developers</span>
-          <h2>Everything you need, nothing you don't.</h2>
-        </div>
-        <a class="button" href="/blog/building-open-source-resume-editor">Read the build notes</a>
-      </div>
-      <div class="grid three">
-        <article class="feature-card">
-          <div class="benefit-icon-wrapper">
-            <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="16" y1="13" x2="8" y2="13"></line>
-              <line x1="16" y1="17" x2="8" y2="17"></line>
-              <polyline points="10 9 9 9 8 9"></polyline>
-            </svg>
-          </div>
-          <h3>Distraction-Free Editor</h3>
-          <p>A clean Markdown split-pane editor lets you focus 100% on your experience, not alignment widgets and layout tabs.</p>
+          <p>Use a plain-text resume source that stays easy to edit, review, version, and reuse.</p>
         </article>
-        <article class="feature-card">
-          <div class="benefit-icon-wrapper">
-            <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              <path d="m8 11 2 2 4-4"></path>
-            </svg>
-          </div>
-          <h3>ATS-Optimized Layouts</h3>
-          <p>All themes follow robust, standard single-column schemas designed for high-accuracy parser extraction.</p>
+        <article class="step-card">
+          <div class="step-badge"><span class="step-num">2</span></div>
+          <h3>Customize your theme</h3>
+          <p>Pick a professional layout and tune spacing, type, margins, and dividers in the live preview.</p>
         </article>
-        <article class="feature-card">
-          <div class="benefit-icon-wrapper">
-            <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-              <polyline points="7 10 12 15 17 10"></polyline>
-              <line x1="12" y1="15" x2="12" y2="3"></line>
-            </svg>
-          </div>
-          <h3>High-Fidelity PDF Export</h3>
-          <p>Exporting uses standard browser engine print rendering to output beautiful, lightweight, searchable-text vector documents.</p>
+        <article class="step-card">
+          <div class="step-badge"><span class="step-num">3</span></div>
+          <h3>Export as PDF</h3>
+          <p>Export a clean, selectable-text PDF that matches the preview and is ready to send.</p>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- THEMES GALLERY -->
   <section class="section border-top">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header compact-header">
         <div>
-          <span class="eyebrow">Themes Gallery</span>
-          <h2>Themes. All ATS-friendly. All yours.</h2>
+          <h2>Built for developers who hate fussing with Word</h2>
+          <p class="section-lede">Everything you need, nothing you do not.</p>
         </div>
-        <a class="button" href="/templates">Browse all themes</a>
+        <a class="button" href="/blog/building-open-source-resume-editor">Build notes</a>
       </div>
       <div class="grid three">
-        {templates.slice(0, 3).map((template) => (
-          <article class="template-card">
-            <div class="paper-wrap">
-              <ResumePreview markdown={template.sampleMarkdown} themeId={template.themeId} compact />
+        {benefitCards.map((card) => (
+          <article class="feature-card compact-card">
+            <div class="benefit-icon-wrapper">
+              {card.icon === "edit" && (
+                <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 20h9"></path>
+                  <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+                </svg>
+              )}
+              {card.icon === "search" && (
+                <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <path d="m21 21-4.3-4.3"></path>
+                  <path d="m8 11 2 2 4-4"></path>
+                </svg>
+              )}
+              {card.icon === "spark" && (
+                <svg class="benefit-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"></path>
+                </svg>
+              )}
             </div>
-            <div class="template-card-body">
-              <h3>{template.name}</h3>
-              <p>{template.description}</p>
-              <div class="card-action-row">
-                <div class="swatches" aria-label={`${template.name} colors`}>
-                  {THEMES.find((item) => item.id === template.themeId)?.swatches.map((swatch) => (
-                    <span class="swatch" style={`background:${swatch}`}></span>
-                  ))}
-                </div>
-                <a class="card-cta-btn" href={`/editor?theme=${template.themeId}`}>
-                  Use Theme
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                </a>
-              </div>
-            </div>
+            <h3>{card.title}</h3>
+            <p>{card.body}</p>
           </article>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- EXAMPLES SHOWROOM -->
   <section class="section border-top">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header compact-header">
         <div>
-          <span class="eyebrow">Examples</span>
-          <h2>Resume examples built for impact.</h2>
+          <h2>Themes. All ATS-friendly. All yours.</h2>
+          <p class="section-lede">Every template is customizable while your Markdown content stays portable.</p>
+        </div>
+        <a class="button" href="/templates">Browse all themes</a>
+      </div>
+      <div class="grid three template-gallery">
+        {templates.slice(0, 6).map((template) => {
+          const theme = THEMES.find((item) => item.id === template.themeId);
+          return (
+            <article class="template-card">
+              <div class="paper-wrap">
+                <ResumePreview markdown={template.sampleMarkdown} themeId={template.themeId} compact />
+              </div>
+              <div class="template-card-body">
+                <h3>{template.name}</h3>
+                <p>{template.description}</p>
+                <div class="card-action-row">
+                  <div class="swatches" aria-label={`${template.name} colors`}>
+                    {theme?.swatches.map((swatch) => <span class="swatch" style={`background:${swatch}`}></span>)}
+                  </div>
+                  <a class="card-cta-btn" href={`/editor?theme=${template.themeId}`}>Use -></a>
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="section border-top">
+    <div class="container">
+      <div class="section-header compact-header">
+        <div>
+          <h2>Resume examples with stronger content</h2>
+          <p class="section-lede">Start from role-specific samples with measurable, recruiter-readable bullets.</p>
         </div>
         <a class="button" href="/examples">All examples</a>
       </div>
@@ -208,44 +203,54 @@ const faqs = [
         {examples.slice(0, 3).map((example) => (
           <article class="example-card flex-example-card">
             <div class="example-card-meta">
+              <span class="mini-label">{example.role}</span>
               <h3>{example.title}</h3>
               <p>{example.summary}</p>
               <div class="tag-list">
                 {example.tags.map((tag) => <span class="tag">{tag}</span>)}
               </div>
             </div>
-            <a class="card-cta-btn example-cta-btn" href={`/editor?example=${example.id}`}>
-              View in Editor
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-            </a>
+            <a class="card-cta-btn example-cta-btn" href={`/editor?example=${example.id}`}>Open in editor -></a>
           </article>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- RE-USABLE CALLOUT -->
-  <section class="section">
-    <div class="container callout-band">
-      <span class="eyebrow">Built for devs</span>
-      <h2>Start building your professional resume today.</h2>
-      <p class="section-lede center-lede">
-        Open source, client-side first, fully customizable. Keep control of your personal data and content.
-      </p>
-      <div class="hero-actions center-actions">
-        <a class="button primary" href="/editor">Try the Editor</a>
-        <a class="button" href="/blog">Read the Blog</a>
+  <section class="section border-top">
+    <div class="container">
+      <div class="section-header compact-header">
+        <div>
+          <h2>Resume advice that actually helps</h2>
+          <p class="section-lede">Short guides on structure, keywords, examples, and applying with confidence.</p>
+        </div>
+        <a class="button" href="/blog">View all articles</a>
+      </div>
+      <div class="grid four article-grid">
+        {posts.slice(0, 4).map((post, index) => (
+          <article class="blog-card article-card">
+            <div class={`article-art ${articleArt[index % articleArt.length]}`} aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div class="article-card-body">
+              <h3><a href={`/blog/${post.id}`}>{post.data.title}</a></h3>
+              <p>{post.data.description}</p>
+              <a class="card-cta-btn" href={`/blog/${post.id}`}>Read More -></a>
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- FAQ SECTION -->
   <section class="section border-top">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header compact-header">
         <div>
-          <span class="eyebrow">FAQ</span>
-          <h2>Frequently Asked Questions</h2>
+          <h2>Frequently asked questions</h2>
+          <p class="section-lede">Quick answers before you open the editor.</p>
         </div>
       </div>
       <div class="grid three">

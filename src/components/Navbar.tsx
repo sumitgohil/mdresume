@@ -36,6 +36,18 @@ export function Navbar() {
     toast.success("Markdown exported.");
   };
 
+  const handleBack = () => {
+    if (document.referrer) {
+      const referrer = new URL(document.referrer);
+      if (referrer.origin === window.location.origin) {
+        window.history.back();
+        return;
+      }
+    }
+
+    window.location.assign("/");
+  };
+
   const handleImportMarkdown = async (file: File | undefined) => {
     if (!file) return;
 
@@ -65,6 +77,7 @@ export function Navbar() {
       <Button
         variant="ghost"
         size="sm"
+        onClick={handleBack}
         className="gap-2 text-muted-foreground hover:text-foreground"
       >
         <ArrowLeft className="size-4" />

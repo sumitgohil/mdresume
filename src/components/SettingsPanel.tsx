@@ -601,7 +601,7 @@ export function SettingsPanel() {
       )}
 
       <div className="p-4 text-[10px] text-muted-foreground text-center">
-        ResumeOS · v0.2 · Auto-saved locally
+        MDResume · v0.2 · Auto-saved locally
       </div>
     </aside>
   );

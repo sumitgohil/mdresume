@@ -5,11 +5,31 @@ import { ResumePreview } from "@/components/ResumePreview";
 import { SettingsPanel } from "@/components/SettingsPanel";
 import { AIPanel } from "@/components/AIPanel";
 import { useResumeStore } from "@/store/resumeStore";
+import { examples, findTemplate } from "@/data/resume";
+import { isResumeTheme } from "@/lib/themeRegistry";
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
+import { useEffect } from "react";
 
 export function ResumeMarkdownApp() {
-  const { viewMode, settingsOpen, aiPanelOpen } = useResumeStore();
+  const { viewMode, settingsOpen, aiPanelOpen, importMarkdown, setTheme } = useResumeStore();
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const exampleId = params.get("example");
+    const themeId = params.get("theme");
+    const example = examples.find((item) => item.id === exampleId);
+
+    if (example) {
+      const template = findTemplate(example.templateId);
+      importMarkdown(example.markdown, example.role);
+      setTheme(template.themeId);
+    }
+
+    if (isResumeTheme(themeId)) {
+      setTheme(themeId);
+    }
+  }, [importMarkdown, setTheme]);
 
   return (
     <div className="h-screen w-screen flex flex-col bg-background text-foreground overflow-hidden">
