@@ -16,7 +16,7 @@ const contentLines = parsed.content
 ---
 
 <article class:list={["resume-paper", `theme-${themeId}`, compact && "compact-preview"]}>
-  {parsed.data.name && <h1>{parsed.data.name}</h1>}
+  {parsed.data.name && (compact ? <div class="resume-name">{parsed.data.name}</div> : <h1>{parsed.data.name}</h1>)}
   {(parsed.data.title || parsed.data.email || parsed.data.location) && (
     <p class="resume-meta">
       {[parsed.data.title, parsed.data.email, parsed.data.location].filter(Boolean).join(" | ")}

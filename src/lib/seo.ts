@@ -1,21 +1,54 @@
+export type SeoType = "website" | "article";
+
 export type SeoProps = {
   title?: string;
   description?: string;
   image?: string;
+  imageAlt?: string;
+  locale?: string;
+  type?: SeoType;
+  publishedTime?: string | Date;
+  modifiedTime?: string | Date;
   noIndex?: boolean;
   disableDefaultSchema?: boolean;
+};
+
+export type BreadcrumbItem = {
+  name: string;
+  path: string;
+};
+
+export type BlogPostingInput = {
+  pathname: string;
+  title: string;
+  description: string;
+  publishDate: string | Date;
+  modifiedDate?: string | Date;
+  tags?: string[];
 };
 
 export const SITE = {
   name: "MDResume",
   origin: "https://mdresume.dev",
   description:
-    "Open-source Markdown resume builder with polished templates, live previews, and a browser-first editor.",
+    "Open-source Markdown resume builder with ATS-friendly resume templates, AI resume review tools, live previews, and a browser-first editor.",
   author: "Sumit Gohil",
-  defaultImage: "/og-default.svg",
+  defaultLocale: "en",
+  ogWidth: 1200,
+  ogHeight: 630,
 };
 
-function normalizePath(pathname = "/") {
+const LOCALE_TO_OG: Record<string, string> = {
+  en: "en_US",
+  "en-US": "en_US",
+};
+
+function toIsoDate(value?: string | Date) {
+  if (!value) return undefined;
+  return value instanceof Date ? value.toISOString() : new Date(value).toISOString();
+}
+
+export function normalizePath(pathname = "/") {
   const path = pathname.startsWith("/") ? pathname : `/${pathname}`;
   if (path.length > 1 && path.endsWith("/")) return path.slice(0, -1);
   return path;
@@ -36,8 +69,40 @@ export function getSeoDescription(description?: string) {
   return value.length <= 160 ? value : `${value.slice(0, 157).trim()}...`;
 }
 
-export function getImageUrl(image?: string, origin = SITE.origin) {
-  return new URL(image || SITE.defaultImage, origin).toString();
+export function getOgLocale(locale = SITE.defaultLocale) {
+  return LOCALE_TO_OG[locale] || locale.replace("-", "_");
+}
+
+export function getOgImageFilename(pathname = "/", locale = SITE.defaultLocale) {
+  const path = normalizePath(pathname);
+  const slug =
+    path === "/"
+      ? "home"
+      : path
+          .replace(/^\/|\/$/g, "")
+          .replace(/[^\w/-]+/g, "-")
+          .replace(/\//g, "--")
+          .toLowerCase();
+  return `${locale}-${slug}`;
+}
+
+export function getOgImageUrl({
+  image,
+  pathname = "/",
+  locale = SITE.defaultLocale,
+  origin = SITE.origin,
+}: {
+  image?: string;
+  pathname?: string;
+  locale?: string;
+  origin?: string;
+} = {}) {
+  if (image) return new URL(image, origin).toString();
+  return `${origin}/_og/${getOgImageFilename(pathname, locale)}.png`;
+}
+
+export function getImageAlt(title?: string, imageAlt?: string) {
+  return imageAlt || `${getSeoTitle(title)} preview`;
 }
 
 export function organizationSchema() {
@@ -72,6 +137,7 @@ export function webSiteSchema() {
     name: SITE.name,
     url: SITE.origin,
     description: SITE.description,
+    inLanguage: "en",
   };
 }
 
@@ -80,9 +146,21 @@ export function webApplicationSchema() {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: SITE.name,
+    alternateName: "Markdown Resume",
     applicationCategory: "BusinessApplication",
+    applicationSubCategory: "Resume Builder",
     operatingSystem: "Any",
-    url: SITE.origin,
+    browserRequirements: "Requires a modern web browser.",
+    url: `${SITE.origin}/editor`,
+    isAccessibleForFree: true,
+    featureList: [
+      "Markdown resume editor",
+      "ATS-friendly resume templates",
+      "PDF resume export",
+      "BYOK AI resume review",
+      "Job description keyword checks",
+      "Cover letter drafting",
+    ],
     creator: {
       "@type": "Person",
       name: SITE.author,
@@ -95,17 +173,57 @@ export function webApplicationSchema() {
   };
 }
 
-export function faqSchema(items: Array<{ question: string; answer: string }>) {
+export function softwareApplicationSchema() {
   return {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: items.map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.answer,
-      },
+    "@type": "SoftwareApplication",
+    name: SITE.name,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
+    url: SITE.origin,
+    description: SITE.description,
+    isAccessibleForFree: true,
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+    },
+  };
+}
+
+export function breadcrumbSchema(items: BreadcrumbItem[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: getCanonicalUrl(item.path),
     })),
+  };
+}
+
+export function blogPostingSchema(input: BlogPostingInput) {
+  const url = getCanonicalUrl(input.pathname);
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: input.title,
+    description: getSeoDescription(input.description),
+    url,
+    mainEntityOfPage: url,
+    datePublished: toIsoDate(input.publishDate),
+    dateModified: toIsoDate(input.modifiedDate || input.publishDate),
+    keywords: input.tags?.join(", "),
+    author: {
+      "@type": "Person",
+      name: SITE.author,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: SITE.name,
+      url: SITE.origin,
+    },
   };
 }

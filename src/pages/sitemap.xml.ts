@@ -1,7 +1,7 @@
 import { getCollection } from "astro:content";
 import { getCanonicalUrl } from "@/lib/seo";
 
-const staticPages = ["/", "/templates", "/examples", "/blog"];
+const staticPages = ["/", "/templates", "/examples", "/ai-resume", "/blog"];
 
 export async function GET() {
   const posts = await getCollection("blog");

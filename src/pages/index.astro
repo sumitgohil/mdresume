@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import ResumePreview from "@/components/ResumePreview.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { templates, examples, THEMES } from "@/data/resume";
-import { faqSchema, organizationSchema, webApplicationSchema } from "@/lib/seo";
+import { organizationSchema, webApplicationSchema, webSiteSchema } from "@/lib/seo";
 
 const posts = (await getCollection("blog")).sort(
   (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
@@ -64,9 +64,10 @@ const articleArt = ["article-art-terminal", "article-art-keywords", "article-art
 ---
 
 <BaseLayout
-  title="Open-source Markdown Resume Builder"
-  description="Create polished resumes from Markdown with live previews, professional templates, and a browser-first editor."
-  schema={[organizationSchema(), webApplicationSchema(), faqSchema(faqs)]}
+  title="Markdown Resume Builder"
+  description="Create a Markdown Resume with ATS-friendly templates, live previews, PDF export, and optional BYOK AI resume review."
+  imageAlt="MDResume Markdown Resume builder homepage preview"
+  schema={[organizationSchema(), webSiteSchema(), webApplicationSchema()]}
 >
   <section class="hero">
     <div class="container hero-grid hero-grid-wide">
@@ -74,12 +75,13 @@ const articleArt = ["article-art-terminal", "article-art-keywords", "article-art
         <span class="eyebrow">Free & Open Source</span>
         <h1>Markdown Resume Builder for resumes that get read</h1>
         <p>
-          Write in Markdown, choose a clean theme, and export a polished PDF without fighting word processor layouts.
-          Built for developers and technical professionals who care about clear content.
+          Write in Markdown, choose a clean theme, export a polished PDF, and use optional BYOK AI resume checks
+          when you want a second pass on keywords or bullet clarity.
         </p>
         <div class="hero-actions">
           <a class="button primary" href="/editor">Start Building for Free</a>
           <a class="button" href="/templates">Browse Themes</a>
+          <a class="button ghost" href="/ai-resume">AI Resume Tools</a>
         </div>
       </div>
       <figure class="hero-screenshot-frame" aria-label="MDResume editor screenshot">
@@ -123,7 +125,7 @@ const articleArt = ["article-art-terminal", "article-art-keywords", "article-art
           <h2>Built for developers who hate fussing with Word</h2>
           <p class="section-lede">Everything you need, nothing you do not.</p>
         </div>
-        <a class="button" href="/blog/building-open-source-resume-editor">Build notes</a>
+        <a class="button" href="/ai-resume">AI resume workflow</a>
       </div>
       <div class="grid three">
         {benefitCards.map((card) => (

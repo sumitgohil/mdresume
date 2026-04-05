@@ -1,6 +1,18 @@
 ---
-import "../styles/global.css";
-import { getCanonicalUrl, getImageUrl, getSeoDescription, getSeoTitle, SITE, webPageSchema, type SeoProps } from "@/lib/seo";
+import globalStylesUrl from "../styles/global.css?url";
+import { OgImage } from "@sumitgohil/astro-opengraph-image/components";
+import {
+  getCanonicalUrl,
+  getImageAlt,
+  getOgImageFilename,
+  getOgImageUrl,
+  getOgLocale,
+  getSeoDescription,
+  getSeoTitle,
+  SITE,
+  webPageSchema,
+  type SeoProps,
+} from "@/lib/seo";
 
 type Props = SeoProps & {
   pathname?: string;
@@ -11,6 +23,11 @@ const {
   title,
   description,
   image,
+  imageAlt,
+  locale = SITE.defaultLocale,
+  type = "website",
+  publishedTime,
+  modifiedTime,
   noIndex = false,
   disableDefaultSchema = false,
   pathname = Astro.url.pathname,
@@ -20,9 +37,32 @@ const {
 const seoTitle = getSeoTitle(title);
 const seoDescription = getSeoDescription(description);
 const canonical = getCanonicalUrl(pathname);
-const imageUrl = getImageUrl(image);
+const imageUrl = getOgImageUrl({ image, pathname, locale });
+const imageAltText = getImageAlt(title, imageAlt);
+const ogImageFilename = getOgImageFilename(pathname, locale);
+const hasCustomImage = Boolean(image);
+const ogLocale = getOgLocale(locale);
 const activePath = Astro.url.pathname;
 const schemaItems = disableDefaultSchema ? schema : [webPageSchema(pathname, title, description), ...schema];
+const publishedIso = publishedTime
+  ? publishedTime instanceof Date
+    ? publishedTime.toISOString()
+    : new Date(publishedTime).toISOString()
+  : undefined;
+const modifiedIso = modifiedTime
+  ? modifiedTime instanceof Date
+    ? modifiedTime.toISOString()
+    : new Date(modifiedTime).toISOString()
+  : undefined;
+const ogEyebrow = activePath.startsWith("/templates")
+  ? "Resume Templates"
+  : activePath.startsWith("/examples")
+    ? "Resume Examples"
+    : activePath.startsWith("/ai-resume")
+      ? "AI Resume"
+      : activePath.startsWith("/blog")
+        ? "Resume Advice"
+        : "Markdown Resume";
 ---
 
 <!doctype html>
@@ -32,24 +72,79 @@ const schemaItems = disableDefaultSchema ? schema : [webPageSchema(pathname, tit
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href={globalStylesUrl} />
     <link rel="canonical" href={canonical} />
     {noIndex && <meta name="robots" content="noindex, nofollow" />}
     <title>{seoTitle}</title>
     <meta name="description" content={seoDescription} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={type} />
     <meta property="og:url" content={canonical} />
     <meta property="og:title" content={seoTitle} />
     <meta property="og:description" content={seoDescription} />
     <meta property="og:site_name" content={SITE.name} />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:image" content={imageUrl} />
-    <meta property="og:image:alt" content={`${SITE.name} product preview`} />
+    <meta property="og:locale" content={ogLocale} />
+    {hasCustomImage && <meta property="og:image" content={imageUrl} />}
+    <meta property="og:image:alt" content={imageAltText} />
+    <meta property="og:image:width" content={String(SITE.ogWidth)} />
+    <meta property="og:image:height" content={String(SITE.ogHeight)} />
+    {publishedIso && <meta property="article:published_time" content={publishedIso} />}
+    {modifiedIso && <meta property="article:modified_time" content={modifiedIso} />}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content={canonical} />
     <meta name="twitter:title" content={seoTitle} />
     <meta name="twitter:description" content={seoDescription} />
     <meta name="twitter:image" content={imageUrl} />
-    <meta name="twitter:image:alt" content={`${SITE.name} product preview`} />
+    <meta name="twitter:image:alt" content={imageAltText} />
+    {
+      !hasCustomImage && (
+        <OgImage filename={ogImageFilename}>
+          <section
+            style="width: 1200px; height: 630px; display: flex; align-items: stretch; justify-content: flex-start; padding: 64px; box-sizing: border-box; color: #f8fbff; background: #06090d; font-family: Inter, Arial, sans-serif;"
+          >
+            <div
+              style="display: flex; flex-direction: column; width: 100%; border: 1px solid rgba(128, 145, 166, 0.28); border-radius: 22px; padding: 56px; box-sizing: border-box; background: #0b1118;"
+            >
+              <div style="display: flex; align-items: center; gap: 18px; font-size: 30px; color: #f8fbff;">
+                <span
+                  style='display: flex; align-items: center; justify-content: center; width: 54px; height: 54px; border-radius: 14px; border: 1px solid rgba(92, 211, 184, 0.54); color: #5cd3b8; font-family: "JetBrains Mono", monospace; font-size: 22px; background: rgba(92, 211, 184, 0.12);'
+                >
+                  MD
+                </span>
+                <strong>MDResume</strong>
+              </div>
+              <p
+                style='margin: 72px 0 18px; color: #5cd3b8; font-family: "JetBrains Mono", monospace; font-size: 24px; font-weight: 700; letter-spacing: 0; text-transform: uppercase;'
+              >
+                {ogEyebrow}
+              </p>
+              <h1 style="max-width: 880px; margin: 0; font-size: 68px; line-height: 1.02; letter-spacing: 0;">
+                {seoTitle.replace(` | ${SITE.name}`, "")}
+              </h1>
+              <p style="max-width: 830px; margin: 26px 0 0; color: #b8c2cc; font-size: 30px; line-height: 1.35;">
+                {seoDescription}
+              </p>
+              <div style="display: flex; gap: 16px; margin-top: 44px;">
+                <span
+                  style="border: 1px solid rgba(128, 145, 166, 0.32); border-radius: 999px; padding: 12px 18px; color: #dfe7ee; font-size: 22px; background: rgba(255, 255, 255, 0.05);"
+                >
+                  Markdown Resume
+                </span>
+                <span
+                  style="border: 1px solid rgba(128, 145, 166, 0.32); border-radius: 999px; padding: 12px 18px; color: #dfe7ee; font-size: 22px; background: rgba(255, 255, 255, 0.05);"
+                >
+                  ATS Templates
+                </span>
+                <span
+                  style="border: 1px solid rgba(128, 145, 166, 0.32); border-radius: 999px; padding: 12px 18px; color: #dfe7ee; font-size: 22px; background: rgba(255, 255, 255, 0.05);"
+                >
+                  BYOK AI
+                </span>
+              </div>
+            </div>
+          </section>
+        </OgImage>
+      )
+    }
     {schemaItems.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
   </head>
   <body>
@@ -66,6 +161,7 @@ const schemaItems = disableDefaultSchema ? schema : [webPageSchema(pathname, tit
         <div class="nav-links">
           <a href="/templates" aria-current={activePath.startsWith("/templates") ? "page" : undefined}>Templates</a>
           <a href="/examples" aria-current={activePath.startsWith("/examples") ? "page" : undefined}>Examples</a>
+          <a href="/ai-resume" aria-current={activePath.startsWith("/ai-resume") ? "page" : undefined}>AI Resume</a>
           <a href="/blog" aria-current={activePath.startsWith("/blog") ? "page" : undefined}>Blog</a>
           <a href="/editor" aria-current={activePath.startsWith("/editor") ? "page" : undefined}>Editor</a>
         </div>
@@ -84,6 +180,7 @@ const schemaItems = disableDefaultSchema ? schema : [webPageSchema(pathname, tit
         <div class="footer-links">
           <a href="/templates">Templates</a>
           <a href="/examples">Examples</a>
+          <a href="/ai-resume">AI Resume</a>
           <a href="/blog">Blog</a>
           <a href="/llms.txt">llms.txt</a>
         </div>

@@ -1,0 +1,162 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { breadcrumbSchema, webApplicationSchema, softwareApplicationSchema } from "@/lib/seo";
+
+const capabilities = [
+  {
+    title: "Job keyword checks",
+    body: "Paste an optional job description and review important terms that appear, are missing, or need stronger evidence in your resume.",
+  },
+  {
+    title: "Bullet rewrite suggestions",
+    body: "Turn vague responsibilities into sharper bullets with scope, action, and outcome while keeping your Markdown source under your control.",
+  },
+  {
+    title: "Cover-letter drafting",
+    body: "Draft a tailored cover letter from your resume and target role, then edit the output before sending anything.",
+  },
+];
+
+const privacyNotes = [
+  "Bring your own AI provider key instead of creating an MDResume account.",
+  "API keys are stored in your browser, not on an MDResume server.",
+  "AI requests happen only when you run a review, rewrite, or draft action.",
+  "You can keep using the editor, templates, preview, and PDF export without AI.",
+];
+---
+
+<BaseLayout
+  title="AI Resume Builder"
+  description="Use MDResume as a private BYOK AI resume builder and optimizer for keyword checks, bullet rewrite suggestions, and cover-letter drafts."
+  pathname="/ai-resume"
+  imageAlt="MDResume AI resume builder and optimizer preview"
+  schema={[
+    webApplicationSchema(),
+    softwareApplicationSchema(),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "AI Resume", path: "/ai-resume" },
+    ]),
+  ]}
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">AI Resume</span>
+      <h1>Private AI resume tools for Markdown resumes</h1>
+      <p>
+        MDResume combines a Markdown resume builder with optional BYOK AI resume optimization. Review keyword
+        coverage, rewrite bullets, and draft a cover letter without turning the product into a hosted resume service.
+      </p>
+      <div class="hero-actions">
+        <a class="button primary" href="/editor">Open Editor</a>
+        <a class="button" href="/templates">Browse Templates</a>
+        <a class="button ghost" href="/examples">View Examples</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section border-top">
+    <div class="container">
+      <div class="section-header compact-header">
+        <div>
+          <h2>AI resume optimization that stays practical</h2>
+          <p class="section-lede">
+            Use AI for focused resume review tasks, then keep the final judgment and final wording in your hands.
+          </p>
+        </div>
+      </div>
+      <div class="grid three">
+        {capabilities.map((item) => (
+          <article class="feature-card compact-card">
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section border-top">
+    <div class="container grid two">
+      <article class="feature-card compact-card">
+        <span class="eyebrow">BYOK Privacy Model</span>
+        <h2>Bring your own key, keep control of the workflow</h2>
+        <p>
+          MDResume is browser-first. AI is an optional layer for people who already have a provider key and want
+          a review pass while writing a resume in Markdown.
+        </p>
+      </article>
+      <article class="feature-card compact-card">
+        <h3>What to expect</h3>
+        <ul class="check-list">
+          {privacyNotes.map((note) => <li>{note}</li>)}
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="section border-top">
+    <div class="container">
+      <div class="section-header compact-header">
+        <div>
+          <h2>Use it with the rest of MDResume</h2>
+          <p class="section-lede">
+            Start with strong structure first. Then use AI review when you have a job description or need a tighter draft.
+          </p>
+        </div>
+      </div>
+      <div class="grid three step-grid">
+        <article class="step-card">
+          <div class="step-badge"><span class="step-num">1</span></div>
+          <h3>Pick a resume template</h3>
+          <p>
+            Choose an <a href="/templates">ATS-friendly resume template</a> and keep the layout clean before optimizing content.
+          </p>
+        </article>
+        <article class="step-card">
+          <div class="step-badge"><span class="step-num">2</span></div>
+          <h3>Borrow from examples</h3>
+          <p>
+            Study <a href="/examples">role-specific resume examples</a> for scope, metrics, section structure, and bullet density.
+          </p>
+        </article>
+        <article class="step-card">
+          <div class="step-badge"><span class="step-num">3</span></div>
+          <h3>Run a targeted AI pass</h3>
+          <p>
+            Use AI resume review for keyword coverage, missing evidence, bullet rewrites, and a tailored cover-letter draft.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section border-top">
+    <div class="container">
+      <div class="section-header compact-header">
+        <div>
+          <h2>Good AI resume work still needs good source material</h2>
+          <p class="section-lede">
+            These guides explain how to use AI suggestions without weakening the facts, specificity, or voice of your resume.
+          </p>
+        </div>
+        <a class="button" href="/blog">Read the blog</a>
+      </div>
+      <div class="grid two">
+        <article class="faq-item">
+          <h3>Should AI write the whole resume?</h3>
+          <p>
+            No. Use it to inspect gaps, tighten bullets, and compare your resume against a job description. Your facts,
+            metrics, projects, and judgment should lead the final document.
+          </p>
+        </article>
+        <article class="faq-item">
+          <h3>Is MDResume a hosted AI resume service?</h3>
+          <p>
+            No. MDResume is a browser-first Markdown resume builder. AI features use your provider key and are optional.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

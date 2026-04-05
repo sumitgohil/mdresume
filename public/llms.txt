@@ -1,21 +1,37 @@
 # MDResume
 
-MDResume is an open-source Markdown resume builder by Sumit Gohil.
+MDResume is an open-source Markdown Resume builder by Sumit Gohil. It helps developers and technical professionals
+write resumes in Markdown, preview them with ATS-friendly Resume Templates, and export polished PDFs from a browser.
 
-The product provides:
-- A browser-first Markdown resume editor.
-- Live resume preview and print-to-PDF workflow.
-- Professional resume templates for software, product, leadership, and early-career profiles.
-- Static Astro pages for templates, examples, blog content, and SEO discovery.
+Primary capabilities:
+- Browser-first Markdown resume editor with live preview.
+- Professional Resume Templates for software, product, leadership, platform, frontend, backend, and junior profiles.
+- Role-specific resume examples with realistic content and measurable bullet points.
+- Static Astro public pages for templates, examples, blog content, and SEO discovery.
+- Optional BYOK AI resume tools for keyword review, bullet rewrite suggestions, and cover-letter drafting.
 
-Primary pages:
-- /: Product overview and open-source positioning.
-- /templates: Resume template gallery with live sample previews.
+AI resume model:
+- MDResume is not a hosted AI resume service.
+- Users bring their own AI provider key when they want AI assistance.
+- API keys are stored in the user's browser.
+- AI actions are explicit: job description review, missing keyword checks, bullet rewrite suggestions, and cover-letter drafts.
+- AI suggestions should be reviewed and edited by the user before export or submission.
+
+Supported provider categories:
+- OpenAI-compatible chat/completion providers where the user supplies an API key.
+- Other browser-callable AI providers may be supported when configured by the user.
+- MDResume does not require AI for editing, templates, examples, preview, or PDF export.
+
+Primary routes:
+- /: Markdown Resume builder overview and open-source positioning.
+- /templates: Resume Templates gallery with live sample previews.
 - /examples: Practical resume examples by role.
-- /blog: Build notes and resume-writing workflow articles.
-- /editor: Client-only interactive Markdown resume editor.
+- /ai-resume: AI resume builder and optimizer overview with BYOK privacy model.
+- /blog: Resume writing, ATS, Markdown, and AI resume advice.
+- /editor: Client-only interactive Markdown resume editor. This route is noindexed and excluded from the sitemap.
 
-Technical model:
-- Static Astro frontend for Cloudflare Pages.
-- React island only for the editor.
-- No database, authentication, or backend API is required for the core app.
+Known constraints:
+- The editor is a client-side app and is not the primary crawl target.
+- AI output can be incomplete or inaccurate and should be treated as suggestions, not final resume facts.
+- Resume quality depends on accurate user-provided experience, metrics, and job context.
+- The core app has no required database, account system, or backend API.
