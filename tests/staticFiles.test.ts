@@ -10,6 +10,7 @@ describe("cloudflare public files", () => {
     expect(llms).toContain("BYOK AI resume");
     expect(llms).toContain("/ai-resume");
     expect(llms).toContain("/templates");
+    expect(llms).toContain("https://www.linkedin.com/in/sumit-gohil/");
   });
 
   it("sets security headers for Cloudflare Pages", () => {

@@ -33,6 +33,7 @@ export const SITE = {
   description:
     "Open-source Markdown resume builder with ATS-friendly resume templates, AI resume review tools, live previews, and a browser-first editor.",
   author: "Sumit Gohil",
+  authorUrl: "https://www.linkedin.com/in/sumit-gohil/",
   defaultLocale: "en",
   ogWidth: 1200,
   ogHeight: 630,
@@ -109,8 +110,14 @@ export function organizationSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: SITE.author,
+    name: SITE.name,
     url: SITE.origin,
+    founder: {
+      "@type": "Person",
+      name: SITE.author,
+      url: SITE.authorUrl,
+      sameAs: [SITE.authorUrl],
+    },
   };
 }
 
@@ -164,6 +171,8 @@ export function webApplicationSchema() {
     creator: {
       "@type": "Person",
       name: SITE.author,
+      url: SITE.authorUrl,
+      sameAs: [SITE.authorUrl],
     },
     offers: {
       "@type": "Offer",
@@ -219,6 +228,8 @@ export function blogPostingSchema(input: BlogPostingInput) {
     author: {
       "@type": "Person",
       name: SITE.author,
+      url: SITE.authorUrl,
+      sameAs: [SITE.authorUrl],
     },
     publisher: {
       "@type": "Organization",
