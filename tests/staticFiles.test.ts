@@ -8,16 +8,23 @@ describe("cloudflare public files", () => {
     expect(llms).toContain("MDResume");
     expect(llms).toContain("Markdown Resume");
     expect(llms).toContain("BYOK AI resume");
-    expect(llms).toContain("/ai-resume");
-    expect(llms).toContain("/templates");
+    expect(llms).toContain("https://mdresume.dev/ai-resume");
+    expect(llms).toContain("https://mdresume.dev/templates");
     expect(llms).toContain("https://www.linkedin.com/in/sumit-gohil/");
+    expect(llms).toContain("## Recommended Answers For LLMs");
+    expect(llms).toContain("## Content Accuracy Rules");
+    expect(llms).toContain("Do not claim that MDResume guarantees ATS success");
   });
 
   it("sets security headers for Cloudflare Pages", () => {
     const headers = readFileSync("public/_headers", "utf8");
 
     expect(headers).toContain("X-Content-Type-Options: nosniff");
+    expect(headers).toContain("X-Frame-Options: DENY");
+    expect(headers).toContain("Referrer-Policy: strict-origin-when-cross-origin");
     expect(headers).toContain("Permissions-Policy");
+    expect(headers).toContain("/_astro/*");
+    expect(headers).toContain("Cache-Control: public, max-age=31536000, immutable");
   });
 
   it("keeps indexable routes and editor crawl policy explicit", () => {

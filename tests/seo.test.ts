@@ -9,7 +9,9 @@ import {
   getOgLocale,
   getSeoDescription,
   getSeoTitle,
+  organizationSchema,
   softwareApplicationSchema,
+  SITE,
   webApplicationSchema,
   webPageSchema,
 } from "../src/lib/seo";
@@ -18,13 +20,16 @@ describe("seo helpers", () => {
   it("creates deterministic canonical URLs", () => {
     expect(getCanonicalUrl("/templates/")).toBe("https://mdresume.dev/templates");
     expect(getCanonicalUrl("examples")).toBe("https://mdresume.dev/examples");
+    expect(getCanonicalUrl("/")).toBe("https://mdresume.dev/");
   });
 
   it("normalizes titles and descriptions", () => {
     expect(getSeoTitle("Resume Templates")).toBe("Resume Templates | MDResume");
     expect(getSeoTitle("Resume Templates | MDResume")).toBe("Resume Templates | MDResume");
+    expect(getSeoTitle()).toBe("MDResume | Open-source Markdown Resume Builder");
     expect(getSeoDescription("x".repeat(180))).toHaveLength(160);
     expect(getImageAlt("AI Resume Builder")).toContain("AI Resume Builder");
+    expect(getImageAlt("Ignored", "Custom preview")).toBe("Custom preview");
   });
 
   it("creates deterministic generated OG image URLs", () => {
@@ -43,6 +48,7 @@ describe("seo helpers", () => {
 
   it("returns valid JSON-LD compatible schema objects", () => {
     const schemas = [
+      organizationSchema(),
       webPageSchema("/templates", "Resume Templates", "Browse templates"),
       webApplicationSchema(),
       softwareApplicationSchema(),
@@ -63,5 +69,21 @@ describe("seo helpers", () => {
       expect(() => JSON.parse(JSON.stringify(schema))).not.toThrow();
       expect(schema).toHaveProperty("@context", "https://schema.org");
     }
+  });
+
+  it("links creator schema entities back to the public LinkedIn profile", () => {
+    const organization = organizationSchema();
+    const application = webApplicationSchema();
+    const post = blogPostingSchema({
+      pathname: "/blog/private-ai-resume-builder-byok",
+      title: "Private AI resume builder",
+      description: "Use BYOK AI safely.",
+      publishDate: "2026-06-01",
+    });
+
+    expect(SITE.authorUrl).toBe("https://www.linkedin.com/in/sumit-gohil/");
+    expect(organization.founder).toMatchObject({ name: SITE.author, url: SITE.authorUrl });
+    expect(application.creator).toMatchObject({ name: SITE.author, url: SITE.authorUrl });
+    expect(post.author).toMatchObject({ name: SITE.author, url: SITE.authorUrl });
   });
 });

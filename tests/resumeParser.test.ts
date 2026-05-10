@@ -11,10 +11,32 @@ describe("resume parser", () => {
     expect(parsed.content).toContain("## Professional Summary");
   });
 
+  it("trims parsed body content after frontmatter", () => {
+    const parsed = parseResume(`---
+name: "Quoted Name"
+title: 'Quoted Title'
+---
+
+# Body
+`);
+
+    expect(parsed.data.name).toBe("Quoted Name");
+    expect(parsed.data.title).toBe("Quoted Title");
+    expect(parsed.content).toBe("# Body");
+  });
+
   it("falls back to body-only content when frontmatter is absent", () => {
     const parsed = parseResume("# Jane Doe\n\n## Experience");
 
     expect(parsed.data).toEqual({});
     expect(parsed.content).toContain("Jane Doe");
+  });
+
+  it("preserves malformed frontmatter as body content instead of dropping resume text", () => {
+    const markdown = "---\nname: Alex Chen\n\n## Experience";
+    const parsed = parseResume(markdown);
+
+    expect(parsed.data).toEqual({});
+    expect(parsed.content).toBe(markdown);
   });
 });

@@ -6,7 +6,8 @@ export function sanitizeMarkdownFilename(name: string) {
     .replace(/\.md$/i, "")
     .replace(/\.markdown$/i, "")
     .replace(/[^A-Za-z0-9._-]+/g, "-")
-    .replace(/^-+|-+$/g, "")
+    .replace(/\.\.+/g, ".")
+    .replace(/^[._-]+|[._-]+$/g, "")
     .slice(0, 80);
 
   return `${cleaned || "resume"}.md`;
