@@ -39,4 +39,22 @@ describe("cloudflare public files", () => {
     expect(robots).toContain("ClaudeBot");
     expect(editor).toContain('content="noindex, nofollow"');
   });
+
+  it("keeps Astro performance integrations and local font preloads configured", () => {
+    const config = readFileSync("astro.config.mjs", "utf8");
+    const layout = readFileSync("src/layouts/BaseLayout.astro", "utf8");
+    const styles = readFileSync("src/styles/global.css", "utf8");
+
+    expect(config).toContain("compressor()");
+    expect(config).toContain("favicons({");
+    expect(config).toContain("prefetchAll: true");
+    expect(config).toContain("clientPrerender: true");
+    expect(layout).toContain('localizedHTML as faviconsHtml');
+    expect(layout).toContain('set:html={faviconTags}');
+    expect(layout).toContain('rel="preload"');
+    expect(layout).toContain("inter-latin-400-normal.woff2?url");
+    expect(layout).toContain("jetbrains-mono-latin-400-normal.woff2?url");
+    expect(styles).toContain('@font-face');
+    expect(styles).toContain('font-display: swap');
+  });
 });

@@ -1,5 +1,11 @@
 ---
 import globalStylesUrl from "../styles/global.css?url";
+import inter400Url from "@fontsource/inter/files/inter-latin-400-normal.woff2?url";
+import inter600Url from "@fontsource/inter/files/inter-latin-600-normal.woff2?url";
+import inter700Url from "@fontsource/inter/files/inter-latin-700-normal.woff2?url";
+import jetbrainsMono400Url from "@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2?url";
+import jetbrainsMono700Url from "@fontsource/jetbrains-mono/files/jetbrains-mono-latin-700-normal.woff2?url";
+import { localizedHTML as faviconsHtml } from "astro-favicons/middleware";
 import { OgImage } from "@sumitgohil/astro-opengraph-image/components";
 import {
   getCanonicalUrl,
@@ -56,6 +62,7 @@ const modifiedIso = modifiedTime
     ? modifiedTime.toISOString()
     : new Date(modifiedTime).toISOString()
   : undefined;
+const faviconTags = faviconsHtml(locale);
 const ogEyebrow = activePath.startsWith("/templates")
   ? "Resume Templates"
   : activePath.startsWith("/examples")
@@ -72,8 +79,12 @@ const ogEyebrow = activePath.startsWith("/templates")
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
+    <Fragment set:html={faviconTags} />
+    <link rel="preload" href={inter400Url} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={inter600Url} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={inter700Url} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={jetbrainsMono400Url} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={jetbrainsMono700Url} as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href={globalStylesUrl} />
     <link rel="canonical" href={canonical} />
     {noIndex && <meta name="robots" content="noindex, nofollow" />}

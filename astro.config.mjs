@@ -4,6 +4,8 @@ import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
 import opengraphImage from '@sumitgohil/astro-opengraph-image';
 import tailwindcss from '@tailwindcss/vite';
+import compressor from 'astro-compressor';
+import favicons from 'astro-favicons';
 
 // https://astro.build/config
 export default defineConfig({
@@ -43,8 +45,20 @@ export default defineConfig({
         },
       ],
     }),
+    compressor(),
+    favicons({
+      name: 'MDResume',
+      short_name: 'MDResume',
+    }),
   ],
   output: 'static',
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'viewport',
+  },
+  experimental: {
+    clientPrerender: true,
+  },
   vite: {
     plugins: [tailwindcss()],
   },

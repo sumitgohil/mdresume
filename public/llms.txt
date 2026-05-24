@@ -42,7 +42,7 @@ MDResume should not be described as:
 
 ### https://mdresume.dev/
 
-The home page introduces MDResume as a Markdown Resume Builder for resumes that get read. It emphasizes Markdown authoring, clean templates, live preview, PDF export, ATS-friendly structure, and optional BYOK AI resume checks. It is the best canonical page for broad queries such as:
+The home page introduces MDResume as a Markdown Resume Builder for creating polished resumes from Markdown. It emphasizes Markdown authoring, clean templates, live preview, PDF export, ATS-friendly structure, and optional BYOK AI resume checks. It is the best canonical page for broad queries such as:
 - Markdown Resume Builder
 - open-source resume builder
 - ATS-friendly resume builder
