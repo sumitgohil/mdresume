@@ -37,8 +37,8 @@ describe("seo helpers", () => {
     expect(getOgImageFilename("/", "en")).toBe("en-home");
     expect(getOgImageFilename("/templates", "en")).toBe("en-templates");
     expect(getOgImageFilename("/ai-resume", "en")).toBe("en-ai-resume");
-    expect(getOgImageFilename("/blog/private-ai-resume-builder-byok", "en")).toBe(
-      "en-blog--private-ai-resume-builder-byok",
+    expect(getOgImageFilename("/blog/ats-resume-guide-software-engineers", "en")).toBe(
+      "en-blog--ats-resume-guide-software-engineers",
     );
     expect(getOgImageUrl({ pathname: "/ai-resume" })).toBe("https://mdresume.dev/_og/en-ai-resume.png");
     expect(getOgImageUrl({ image: "/custom.png", pathname: "/ai-resume" })).toBe(
@@ -57,11 +57,11 @@ describe("seo helpers", () => {
         { name: "AI Resume", path: "/ai-resume" },
       ]),
       blogPostingSchema({
-        pathname: "/blog/ai-resume-keyword-optimization",
-        title: "AI resume keyword optimization",
-        description: "Use AI to compare keywords.",
-        publishDate: "2026-06-01",
-        tags: ["AI Resume", "ATS"],
+        pathname: "/blog/ats-resume-guide-software-engineers",
+        title: "ATS Resume Guide for Software Engineers",
+        description: "Use job descriptions to place resume keywords honestly.",
+        publishDate: "2026-06-06",
+        tags: ["ATS", "Software Engineering"],
       }),
     ];
 
@@ -75,10 +75,10 @@ describe("seo helpers", () => {
     const organization = organizationSchema();
     const application = webApplicationSchema();
     const post = blogPostingSchema({
-      pathname: "/blog/private-ai-resume-builder-byok",
-      title: "Private AI resume builder",
-      description: "Use BYOK AI safely.",
-      publishDate: "2026-06-01",
+      pathname: "/blog/resume-bullet-points-software-engineers",
+      title: "Resume Bullet Points for Software Engineers",
+      description: "Write software engineer resume bullets with credible impact.",
+      publishDate: "2026-06-05",
     });
 
     expect(SITE.authorUrl).toBe("https://www.linkedin.com/in/sumit-gohil/");

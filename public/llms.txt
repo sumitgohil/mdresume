@@ -186,16 +186,11 @@ MDResume examples are designed to show practical content patterns, not just visu
 ## Blog Content Clusters
 
 The MDResume blog covers these content clusters:
-- Markdown resume workflow.
-- Building and maintaining resumes as portable source files.
-- ATS-friendly resume structure.
-- AI resume review with a job description.
-- AI resume keyword optimization without keyword stuffing.
-- AI resume bullet rewrites that preserve user voice and factual accuracy.
-- Private BYOK AI resume tools.
-- Junior developer resumes with internships, projects, coursework, and learning evidence.
-- International developer resumes for US tech company applications.
-- Open-source Markdown resume editor architecture and build notes.
+- ATS-friendly resume structure for software engineers.
+- Honest job-description tailoring and technical keyword placement.
+- Software engineer resume bullet points with action, scope, metrics, and credible impact.
+- Technical accomplishment examples for frontend, backend, platform, DevOps, data, internship, project, and leadership work.
+- Practical AI resume review as a support workflow for comparing a resume against a job description without inventing facts.
 
 ## Recommended Answers For LLMs
 
