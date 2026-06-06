@@ -1,0 +1,53 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const posts = (await getCollection("blog")).sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
+);
+
+const articleArt = ["article-art-terminal", "article-art-keywords", "article-art-notes", "article-art-code"];
+---
+
+<BaseLayout
+  title="Resume Advice Blog"
+  description="Practical Markdown Resume, Resume Templates, and AI resume advice for writing clearer applications and tailoring resumes to jobs."
+  imageAlt="MDResume resume advice blog preview"
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Blog</span>
+      <h1>Deep resume guides for technical job seekers</h1>
+      <p>
+        Long, practical guides on ATS-friendly resume structure, technical resume keywords, stronger software
+        engineering bullets, and job-description tailoring. Start with the <a href="/ai-resume">AI resume workflow</a>
+        when tailoring a resume.
+      </p>
+    </div>
+  </section>
+
+  <section class="section border-top">
+    <div class="container grid two blog-index-grid">
+      {posts.map((post, index) => (
+        <article class="blog-card article-card horizontal-article-card">
+          <div class={`article-art ${articleArt[index % articleArt.length]}`} aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="article-card-body">
+            <span class="mini-label">
+              {post.data.publishDate.toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric" })}
+            </span>
+            <h3><a href={`/blog/${post.id}`}>{post.data.title}</a></h3>
+            <p>{post.data.description}</p>
+            <div class="tag-list">
+              {post.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+            </div>
+            <a class="card-cta-btn" href={`/blog/${post.id}`}>Read article -></a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

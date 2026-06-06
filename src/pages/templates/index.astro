@@ -1,0 +1,54 @@
+---
+import ResumePreview from "@/components/ResumePreview.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { templates, THEMES } from "@/data/resume";
+---
+
+<BaseLayout
+  title="Resume Templates"
+  description="Browse ATS resume templates for Markdown resumes, including developer resume templates for software, product, and leadership roles."
+  imageAlt="MDResume Resume Templates gallery preview"
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Theme Gallery</span>
+      <h1>Markdown resume themes with live previews</h1>
+      <p>
+        Pick a recruiter-friendly layout, keep your Markdown portable, tune the details in the editor, and
+        pair it with <a href="/ai-resume">AI resume keyword checks</a> when tailoring for a job description.
+      </p>
+    </div>
+  </section>
+
+  <section class="section border-top">
+    <div class="container grid three">
+      {templates.map((template) => {
+        const theme = THEMES.find((item) => item.id === template.themeId);
+        return (
+          <article class="template-card">
+            <div class="paper-wrap">
+              <ResumePreview markdown={template.sampleMarkdown} themeId={template.themeId} compact />
+            </div>
+            <div class="template-card-body">
+              <h3>{template.name}</h3>
+              <p>{template.description}</p>
+              <p class="template-audience">
+                Best for: <strong>{template.audience}</strong>
+              </p>
+              <div class="card-action-row">
+                <div class="swatches compact-swatches" aria-label={`${template.name} colors`}>
+                  {theme?.swatches.map((swatch) => (
+                    <span class="swatch" style={`background:${swatch}`}></span>
+                  ))}
+                </div>
+                <a class="card-cta-btn" href={`/editor?theme=${template.themeId}`}>
+                  Use template ->
+                </a>
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,57 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { blogPostingSchema, breadcrumbSchema } from "@/lib/seo";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const pathname = `/blog/${post.id}`;
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  pathname={pathname}
+  type="article"
+  publishedTime={post.data.publishDate}
+  modifiedTime={post.data.publishDate}
+  imageAlt={`${post.data.title} article preview on MDResume`}
+  schema={[
+    blogPostingSchema({
+      pathname,
+      title: post.data.title,
+      description: post.data.description,
+      publishDate: post.data.publishDate,
+      tags: post.data.tags,
+    }),
+    breadcrumbSchema([
+      { name: "Home", path: "/" },
+      { name: "Blog", path: "/blog" },
+      { name: post.data.title, path: pathname },
+    ]),
+  ]}
+>
+  <article class="page-hero">
+    <div class="container" style="max-width: 820px;">
+      <span class="eyebrow">{post.data.publishDate.toLocaleDateString("en", { month: "long", day: "numeric", year: "numeric" })}</span>
+      <h1>{post.data.title}</h1>
+      <p>{post.data.description}</p>
+      <div class="tag-list">
+        {post.data.tags.map((tag) => <span class="tag">{tag}</span>)}
+      </div>
+    </div>
+  </article>
+  <section class="section">
+    <div class="container blog-post-content" style="max-width: 820px;">
+      <Content />
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,280 @@
+---
+import globalStylesUrl from "../styles/global.css?url";
+import inter400Url from "@fontsource/inter/files/inter-latin-400-normal.woff2?url";
+import inter600Url from "@fontsource/inter/files/inter-latin-600-normal.woff2?url";
+import inter700Url from "@fontsource/inter/files/inter-latin-700-normal.woff2?url";
+import jetbrainsMono400Url from "@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2?url";
+import jetbrainsMono700Url from "@fontsource/jetbrains-mono/files/jetbrains-mono-latin-700-normal.woff2?url";
+import { localizedHTML as faviconsHtml } from "astro-favicons/middleware";
+import { OgImage } from "@sumitgohil/astro-opengraph-image/components";
+import {
+  getCanonicalUrl,
+  getImageAlt,
+  getOgImageFilename,
+  getOgImageUrl,
+  getOgLocale,
+  getSeoDescription,
+  getSeoTitle,
+  SITE,
+  webPageSchema,
+  type SeoProps,
+} from "@/lib/seo";
+
+type Props = SeoProps & {
+  pathname?: string;
+  schema?: unknown[];
+};
+
+const {
+  title,
+  description,
+  image,
+  imageAlt,
+  locale = SITE.defaultLocale,
+  type = "website",
+  publishedTime,
+  modifiedTime,
+  noIndex = false,
+  disableDefaultSchema = false,
+  pathname = Astro.url.pathname,
+  schema = [],
+} = Astro.props;
+
+const seoTitle = getSeoTitle(title);
+const seoDescription = getSeoDescription(description);
+const canonical = getCanonicalUrl(pathname);
+const imageUrl = getOgImageUrl({ image, pathname, locale });
+const imageAltText = getImageAlt(title, imageAlt);
+const ogImageFilename = getOgImageFilename(pathname, locale);
+const hasCustomImage = Boolean(image);
+const ogLocale = getOgLocale(locale);
+const activePath = Astro.url.pathname;
+const schemaItems = disableDefaultSchema ? schema : [webPageSchema(pathname, title, description), ...schema];
+const ogTitle = seoTitle.replace(` | ${SITE.name}`, "");
+const ogDescription = seoDescription;
+const publishedIso = publishedTime
+  ? publishedTime instanceof Date
+    ? publishedTime.toISOString()
+    : new Date(publishedTime).toISOString()
+  : undefined;
+const modifiedIso = modifiedTime
+  ? modifiedTime instanceof Date
+    ? modifiedTime.toISOString()
+    : new Date(modifiedTime).toISOString()
+  : undefined;
+const faviconTags = faviconsHtml(locale);
+const ogEyebrow = activePath.startsWith("/templates")
+  ? "Resume Templates"
+  : activePath.startsWith("/examples")
+    ? "Resume Examples"
+    : activePath.startsWith("/ai-resume")
+      ? "AI Resume"
+      : activePath.startsWith("/blog")
+        ? "Resume Advice"
+        : "Markdown Resume";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <Fragment set:html={faviconTags} />
+    <link rel="preload" href={inter400Url} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={inter600Url} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={inter700Url} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={jetbrainsMono400Url} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={jetbrainsMono700Url} as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href={globalStylesUrl} />
+    <link rel="canonical" href={canonical} />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+    <title>{seoTitle}</title>
+    <meta name="description" content={seoDescription} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={seoTitle} />
+    <meta property="og:description" content={seoDescription} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content={imageAltText} />
+    <meta property="og:image:width" content={String(SITE.ogWidth)} />
+    <meta property="og:image:height" content={String(SITE.ogHeight)} />
+    {publishedIso && <meta property="article:published_time" content={publishedIso} />}
+    {modifiedIso && <meta property="article:modified_time" content={modifiedIso} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonical} />
+    <meta name="twitter:title" content={seoTitle} />
+    <meta name="twitter:description" content={seoDescription} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={imageAltText} />
+    {
+      !hasCustomImage && (
+        <OgImage filename={ogImageFilename}>
+          <section class="og-root">
+            <div class="og-badge">MDRESUME</div>
+            <div class="og-copy">
+              <p class="og-eyebrow">{ogEyebrow}</p>
+              <h1>{ogTitle}</h1>
+              <p class="og-description">{ogDescription}</p>
+            </div>
+            <div class="og-meta">
+              <span>{locale.toUpperCase()}</span>
+              <span>Markdown Resume</span>
+              <span>ATS Templates</span>
+              <span>BYOK AI</span>
+            </div>
+          </section>
+          <style is:inline>
+            .og-root {
+              width: 1200px;
+              height: 630px;
+              color: #f8fbff;
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+              padding: 72px 78px;
+              background: #06090d;
+              border: 1px solid rgba(128, 145, 166, 0.28);
+              overflow: hidden;
+              box-sizing: border-box;
+            }
+            .og-badge {
+              display: flex;
+              align-self: flex-start;
+              align-items: center;
+              justify-content: center;
+              flex-shrink: 0;
+              width: 178px;
+              height: 58px;
+              border: 1px solid rgba(92, 211, 184, 0.54);
+              border-radius: 12px;
+              padding: 0;
+              font-family: "JetBrains Mono", monospace;
+              font-size: 28px;
+              font-weight: 700;
+              line-height: 1;
+              letter-spacing: 0;
+              color: #5cd3b8;
+              background: rgba(92, 211, 184, 0.12);
+            }
+            .og-copy {
+              display: flex;
+              flex-direction: column;
+              flex-shrink: 1;
+              margin: 28px 0 26px;
+            }
+            .og-eyebrow {
+              margin: 0 0 8px;
+              max-width: 1020px;
+              font-family: "JetBrains Mono", monospace;
+              font-size: 24px;
+              line-height: 1.2;
+              font-weight: 700;
+              letter-spacing: 0;
+              text-transform: uppercase;
+              color: #5cd3b8;
+            }
+            h1 {
+              margin: 0 0 14px;
+              max-width: 1020px;
+              max-height: 190px;
+              overflow: hidden;
+              font-family: Inter, Arial, sans-serif;
+              font-size: 58px;
+              line-height: 1.08;
+              font-weight: 800;
+              letter-spacing: 0;
+            }
+            .og-description {
+              margin: 0;
+              max-width: 1020px;
+              max-height: 120px;
+              overflow: hidden;
+              font-family: Inter, Arial, sans-serif;
+              font-size: 30px;
+              line-height: 1.25;
+              font-weight: 400;
+              letter-spacing: 0;
+              color: #b8c2cc;
+            }
+            .og-meta {
+              display: flex;
+              flex-shrink: 0;
+              gap: 18px;
+              flex-wrap: wrap;
+              max-height: 62px;
+              overflow: hidden;
+            }
+            .og-meta span {
+              border: 1px solid rgba(128, 145, 166, 0.32);
+              background: rgba(255, 255, 255, 0.05);
+              border-radius: 999px;
+              padding: 10px 18px;
+              color: #dfe7ee;
+              font-family: "JetBrains Mono", monospace;
+              font-size: 24px;
+              font-weight: 700;
+              letter-spacing: 0;
+            }
+          </style>
+        </OgImage>
+      )
+    }
+    {schemaItems.map((item) => <script type="application/ld+json" set:html={JSON.stringify(item)} />)}
+  </head>
+  <body>
+    <div class="announcement-banner">
+      <span class="banner-badge">Open Source</span>
+      <span class="banner-text">Write, preview, and export your resume from Markdown. No signup required.</span>
+    </div>
+    <header class="site-header">
+      <nav class="container site-nav" aria-label="Primary">
+        <a class="brand" href="/" aria-label="MDResume home">
+          <span class="brand-mark">MD</span>
+          <span>MDResume</span>
+        </a>
+        <div class="nav-links nav-desktop-links">
+          <a href="/templates" aria-current={activePath.startsWith("/templates") ? "page" : undefined}>Templates</a>
+          <a href="/examples" aria-current={activePath.startsWith("/examples") ? "page" : undefined}>Examples</a>
+          <a href="/ai-resume" aria-current={activePath.startsWith("/ai-resume") ? "page" : undefined}>AI Resume</a>
+          <a href="/blog" aria-current={activePath.startsWith("/blog") ? "page" : undefined}>Blog</a>
+          <a href="/editor" aria-current={activePath.startsWith("/editor") ? "page" : undefined}>Editor</a>
+        </div>
+        <div class="nav-actions nav-desktop-actions">
+          <a class="button ghost" href="https://github.com/" rel="noreferrer">GitHub</a>
+          <a class="button primary" href="/editor">Editor</a>
+        </div>
+        <details class="mobile-menu">
+          <summary aria-label="Open navigation menu">
+            <span class="mobile-menu-icon" aria-hidden="true"></span>
+            <span class="sr-only">Menu</span>
+          </summary>
+          <div class="mobile-menu-panel">
+            <a href="/templates" aria-current={activePath.startsWith("/templates") ? "page" : undefined}>Templates</a>
+            <a href="/examples" aria-current={activePath.startsWith("/examples") ? "page" : undefined}>Examples</a>
+            <a href="/ai-resume" aria-current={activePath.startsWith("/ai-resume") ? "page" : undefined}>AI Resume</a>
+            <a href="/blog" aria-current={activePath.startsWith("/blog") ? "page" : undefined}>Blog</a>
+            <a href="https://github.com/" rel="noreferrer">GitHub</a>
+            <a class="mobile-menu-primary" href="/editor">Open Editor</a>
+          </div>
+        </details>
+      </nav>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="container footer-row">
+        <div>MDResume by <a href="https://www.linkedin.com/in/sumit-gohil/" rel="author noreferrer">Sumit Gohil</a>.</div>
+        <div class="footer-links">
+          <a href="/templates">Templates</a>
+          <a href="/examples">Examples</a>
+          <a href="/ai-resume">AI Resume</a>
+          <a href="/blog">Blog</a>
+          <a href="/llms.txt">llms.txt</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

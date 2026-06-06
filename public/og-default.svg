@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="MDResume Open-source Markdown Resume Builder">
+  <rect width="1200" height="630" fill="#15191d"/>
+  <rect x="72" y="72" width="1056" height="486" rx="8" fill="#1b2026" stroke="#343b44"/>
+  <rect x="110" y="118" width="116" height="116" rx="8" fill="#77d9c5"/>
+  <text x="168" y="189" text-anchor="middle" fill="#0e1d1a" font-family="Arial, sans-serif" font-size="42" font-weight="800">MD</text>
+  <text x="110" y="308" fill="#f4f7f8" font-family="Arial, sans-serif" font-size="82" font-weight="800">MDResume</text>
+  <text x="110" y="374" fill="#c5d0d6" font-family="Arial, sans-serif" font-size="34">Open-source Markdown Resume Builder</text>
+  <text x="110" y="430" fill="#98a4ad" font-family="Arial, sans-serif" font-size="26">Astro frontend. React editor island. Static SEO pages.</text>
+  <rect x="800" y="118" width="230" height="320" rx="4" fill="#ffffff"/>
+  <rect x="828" y="154" width="128" height="14" fill="#111827"/>
+  <rect x="828" y="186" width="154" height="8" fill="#64748b"/>
+  <rect x="828" y="232" width="132" height="7" fill="#2563eb"/>
+  <rect x="828" y="260" width="170" height="6" fill="#334155"/>
+  <rect x="828" y="280" width="148" height="6" fill="#334155"/>
+  <rect x="828" y="326" width="132" height="7" fill="#2563eb"/>
+  <rect x="828" y="354" width="170" height="6" fill="#334155"/>
+  <rect x="828" y="374" width="148" height="6" fill="#334155"/>
+</svg>

@@ -1,0 +1,139 @@
+---
+import "@/styles.css";
+import { ResumeMarkdownApp } from "@/components/editor/ResumeMarkdownApp";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <title>MDResume — Production-grade Markdown Resume Editor</title>
+    <meta
+      name="description"
+      content="Write resumes in markdown with live preview, 10 professional themes, full typography controls and one-click PDF export."
+    />
+    <meta property="og:title" content="MDResume" />
+    <meta
+      property="og:description"
+      content="Markdown resume editor with live preview, themes, and PDF export."
+    />
+  </head>
+  <body>
+    <main class="editor-small-screen">
+      <section class="editor-small-screen__panel" aria-labelledby="editor-small-screen-title">
+        <div class="editor-small-screen__mark">MD</div>
+        <p class="editor-small-screen__eyebrow">Desktop workspace</p>
+        <h1 id="editor-small-screen-title">Open MDResume on a laptop or desktop.</h1>
+        <p class="editor-small-screen__copy">
+          The resume editor uses a split Markdown workspace, live paper preview, and side panels that
+          need a larger screen to work well.
+        </p>
+        <a href="/" class="editor-small-screen__link">Back to home</a>
+      </section>
+    </main>
+    <div class="editor-desktop-app">
+      <ResumeMarkdownApp client:media="(min-width: 1024px)" />
+    </div>
+  </body>
+</html>
+
+<style>
+  body {
+    min-width: 0;
+  }
+
+  .editor-desktop-app {
+    display: none;
+  }
+
+  .editor-small-screen {
+    display: grid;
+    min-height: 100svh;
+    place-items: center;
+    padding: 28px;
+    color: #eef5f4;
+    background:
+      radial-gradient(circle at 20% 12%, rgba(92, 211, 184, 0.18), transparent 30rem),
+      radial-gradient(circle at 80% 80%, rgba(132, 145, 167, 0.14), transparent 26rem),
+      #11161d;
+  }
+
+  .editor-small-screen__panel {
+    width: min(100%, 420px);
+    border: 1px solid rgba(190, 205, 213, 0.16);
+    border-radius: 18px;
+    padding: 28px;
+    background: rgba(20, 27, 35, 0.82);
+    box-shadow: 0 24px 90px rgba(0, 0, 0, 0.42);
+    text-align: left;
+  }
+
+  .editor-small-screen__mark {
+    display: grid;
+    width: 52px;
+    height: 52px;
+    place-items: center;
+    border: 1px solid rgba(92, 211, 184, 0.48);
+    border-radius: 14px;
+    color: #77dec9;
+    background: rgba(92, 211, 184, 0.1);
+    font-family: var(--font-mono);
+    font-size: 16px;
+    font-weight: 800;
+  }
+
+  .editor-small-screen__eyebrow {
+    margin: 22px 0 8px;
+    color: #77dec9;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .editor-small-screen h1 {
+    margin: 0;
+    color: #f8fbff;
+    font-size: 30px;
+    line-height: 1.08;
+    font-weight: 820;
+    letter-spacing: 0;
+  }
+
+  .editor-small-screen__copy {
+    margin: 14px 0 24px;
+    color: #b6c2c9;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .editor-small-screen__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    border: 1px solid rgba(92, 211, 184, 0.38);
+    border-radius: 10px;
+    padding: 0 16px;
+    color: #10171c;
+    background: #77dec9;
+    font-size: 14px;
+    font-weight: 750;
+    text-decoration: none;
+  }
+
+  @media (min-width: 1024px) {
+    .editor-small-screen {
+      display: none;
+    }
+
+    .editor-desktop-app {
+      display: block;
+    }
+  }
+</style>
