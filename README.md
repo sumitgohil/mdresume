@@ -4,6 +4,9 @@ MDResume is an open-source Markdown resume builder for people who want a clean, 
 them, and export polished PDFs. The public website is built with Astro for fast static pages, while the interactive
 resume editor runs as a React island on `/editor`.
 
+- Website: https://mdresume.app/
+- Repository: https://github.com/sumitgohil/mdresume
+
 The project is designed around a simple idea: the resume source should stay readable and reusable. Users write structured
 Markdown, choose an ATS-friendly template, preview changes live, and optionally use BYOK AI tools for resume review,
 keyword checks, bullet rewrites, and cover-letter drafts.

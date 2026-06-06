@@ -29,7 +29,7 @@ export type BlogPostingInput = {
 
 export const SITE = {
   name: "MDResume",
-  origin: "https://mdresume.dev",
+  origin: "https://mdresume.app",
   description:
     "Open-source Markdown resume builder with ATS-friendly resume templates, AI resume review tools, live previews, and a browser-first editor.",
   author: "Sumit Gohil",
