@@ -234,17 +234,31 @@ const ogEyebrow = activePath.startsWith("/templates")
           <span class="brand-mark">MD</span>
           <span>MDResume</span>
         </a>
-        <div class="nav-links">
+        <div class="nav-links nav-desktop-links">
           <a href="/templates" aria-current={activePath.startsWith("/templates") ? "page" : undefined}>Templates</a>
           <a href="/examples" aria-current={activePath.startsWith("/examples") ? "page" : undefined}>Examples</a>
           <a href="/ai-resume" aria-current={activePath.startsWith("/ai-resume") ? "page" : undefined}>AI Resume</a>
           <a href="/blog" aria-current={activePath.startsWith("/blog") ? "page" : undefined}>Blog</a>
           <a href="/editor" aria-current={activePath.startsWith("/editor") ? "page" : undefined}>Editor</a>
         </div>
-        <div class="nav-actions">
+        <div class="nav-actions nav-desktop-actions">
           <a class="button ghost" href="https://github.com/" rel="noreferrer">GitHub</a>
           <a class="button primary" href="/editor">Editor</a>
         </div>
+        <details class="mobile-menu">
+          <summary aria-label="Open navigation menu">
+            <span class="mobile-menu-icon" aria-hidden="true"></span>
+            <span class="sr-only">Menu</span>
+          </summary>
+          <div class="mobile-menu-panel">
+            <a href="/templates" aria-current={activePath.startsWith("/templates") ? "page" : undefined}>Templates</a>
+            <a href="/examples" aria-current={activePath.startsWith("/examples") ? "page" : undefined}>Examples</a>
+            <a href="/ai-resume" aria-current={activePath.startsWith("/ai-resume") ? "page" : undefined}>AI Resume</a>
+            <a href="/blog" aria-current={activePath.startsWith("/blog") ? "page" : undefined}>Blog</a>
+            <a href="https://github.com/" rel="noreferrer">GitHub</a>
+            <a class="mobile-menu-primary" href="/editor">Open Editor</a>
+          </div>
+        </details>
       </nav>
     </header>
     <main>

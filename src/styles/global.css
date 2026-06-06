@@ -213,6 +213,22 @@ main {
   gap: 10px;
 }
 
+.mobile-menu {
+  display: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .button {
   display: inline-flex;
   align-items: center;
@@ -1309,8 +1325,7 @@ main {
   }
 
   .section-header,
-  .footer-row,
-  .site-nav {
+  .footer-row {
     align-items: flex-start;
     flex-direction: column;
   }
@@ -1319,6 +1334,146 @@ main {
   .nav-actions {
     flex-wrap: wrap;
     margin-left: 0;
+  }
+
+  .site-header {
+    background: color-mix(in srgb, var(--background) 88%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .site-nav {
+    position: relative;
+    min-height: 58px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .brand {
+    min-width: 0;
+  }
+
+  .brand span:last-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .nav-desktop-links,
+  .nav-desktop-actions {
+    display: none;
+  }
+
+  .mobile-menu {
+    display: block;
+    margin-left: auto;
+  }
+
+  .mobile-menu summary {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border: 1px solid color-mix(in srgb, var(--primary) 28%, var(--border));
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--background-soft) 82%, transparent);
+    color: var(--foreground);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .mobile-menu summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .mobile-menu-icon,
+  .mobile-menu-icon::before,
+  .mobile-menu-icon::after {
+    display: block;
+    width: 18px;
+    height: 2px;
+    border-radius: 999px;
+    background: currentColor;
+    transition:
+      transform 140ms ease,
+      opacity 140ms ease;
+  }
+
+  .mobile-menu-icon {
+    position: relative;
+  }
+
+  .mobile-menu-icon::before,
+  .mobile-menu-icon::after {
+    content: "";
+    position: absolute;
+    left: 0;
+  }
+
+  .mobile-menu-icon::before {
+    top: -6px;
+  }
+
+  .mobile-menu-icon::after {
+    top: 6px;
+  }
+
+  .mobile-menu[open] .mobile-menu-icon {
+    background: transparent;
+  }
+
+  .mobile-menu[open] .mobile-menu-icon::before {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .mobile-menu[open] .mobile-menu-icon::after {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  .mobile-menu-panel {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 10px;
+    left: 10px;
+    z-index: 30;
+    display: grid;
+    gap: 6px;
+    border: 1px solid color-mix(in srgb, var(--primary) 16%, var(--border));
+    border-radius: 14px;
+    padding: 10px;
+    background: color-mix(in srgb, var(--background-elevated) 94%, #000);
+    box-shadow: 0 22px 70px rgba(0, 0, 0, 0.38);
+  }
+
+  .mobile-menu-panel a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 44px;
+    border-radius: 9px;
+    padding: 0 12px;
+    color: var(--muted-strong);
+    font-size: 14px;
+    font-weight: 650;
+  }
+
+  .mobile-menu-panel a[aria-current="page"] {
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 10%, transparent);
+  }
+
+  .mobile-menu-panel a:hover {
+    color: var(--foreground);
+    background: var(--background-soft);
+  }
+
+  .mobile-menu-panel .mobile-menu-primary {
+    justify-content: center;
+    margin-top: 4px;
+    color: var(--primary-ink);
+    background: var(--primary);
   }
 
   .hero-stats {
@@ -1851,10 +2006,19 @@ main {
 
 @media (max-width: 560px) {
   .announcement-banner {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 4px;
-    text-align: left;
+    min-height: 0;
+    padding: 6px 12px;
+    font-size: 11.5px;
+  }
+
+  .banner-badge {
+    display: none;
+  }
+
+  .banner-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .hero h1,
