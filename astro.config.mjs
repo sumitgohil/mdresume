@@ -9,7 +9,7 @@ import favicons from 'astro-favicons';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://mdresume.dev',
+  site: 'https://mdresume.app',
   integrations: [
     react(),
     opengraphImage({
@@ -17,7 +17,7 @@ export default defineConfig({
       width: 1200,
       height: 630,
       scale: 1,
-      site: 'https://mdresume.dev',
+      site: 'https://mdresume.app',
       fonts: [
         {
           name: 'Inter',

@@ -2,6 +2,14 @@
   "name": "mdresumeastro",
   "type": "module",
   "version": "0.0.1",
+  "homepage": "https://mdresume.app/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sumitgohil/mdresume.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sumitgohil/mdresume/issues"
+  },
   "engines": {
     "node": ">=22.12.0"
   },

@@ -8,8 +8,9 @@ describe("cloudflare public files", () => {
     expect(llms).toContain("MDResume");
     expect(llms).toContain("Markdown Resume");
     expect(llms).toContain("BYOK AI resume");
-    expect(llms).toContain("https://mdresume.dev/ai-resume");
-    expect(llms).toContain("https://mdresume.dev/templates");
+    expect(llms).toContain("https://mdresume.app/ai-resume");
+    expect(llms).toContain("https://mdresume.app/templates");
+    expect(llms).toContain("https://github.com/sumitgohil/mdresume");
     expect(llms).toContain("https://www.linkedin.com/in/sumit-gohil/");
     expect(llms).toContain("## Recommended Answers For LLMs");
     expect(llms).toContain("## Content Accuracy Rules");

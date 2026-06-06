@@ -18,9 +18,9 @@ import {
 
 describe("seo helpers", () => {
   it("creates deterministic canonical URLs", () => {
-    expect(getCanonicalUrl("/templates/")).toBe("https://mdresume.dev/templates");
-    expect(getCanonicalUrl("examples")).toBe("https://mdresume.dev/examples");
-    expect(getCanonicalUrl("/")).toBe("https://mdresume.dev/");
+    expect(getCanonicalUrl("/templates/")).toBe("https://mdresume.app/templates");
+    expect(getCanonicalUrl("examples")).toBe("https://mdresume.app/examples");
+    expect(getCanonicalUrl("/")).toBe("https://mdresume.app/");
   });
 
   it("normalizes titles and descriptions", () => {
@@ -40,9 +40,9 @@ describe("seo helpers", () => {
     expect(getOgImageFilename("/blog/ats-resume-guide-software-engineers", "en")).toBe(
       "en-blog--ats-resume-guide-software-engineers",
     );
-    expect(getOgImageUrl({ pathname: "/ai-resume" })).toBe("https://mdresume.dev/_og/en-ai-resume.png");
+    expect(getOgImageUrl({ pathname: "/ai-resume" })).toBe("https://mdresume.app/_og/en-ai-resume.png");
     expect(getOgImageUrl({ image: "/custom.png", pathname: "/ai-resume" })).toBe(
-      "https://mdresume.dev/custom.png",
+      "https://mdresume.app/custom.png",
     );
   });
 
