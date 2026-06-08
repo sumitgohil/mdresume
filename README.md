@@ -1,5 +1,9 @@
 # MDResume
 
+[![CodeQL](https://github.com/sumitgohil/mdresume/actions/workflows/codeql.yml/badge.svg)](https://github.com/sumitgohil/mdresume/actions/workflows/codeql.yml)
+![License](https://img.shields.io/github/license/sumitgohil/mdresume)
+![Stars](https://img.shields.io/github/stars/sumitgohil/mdresume)
+
 MDResume is an open-source Markdown resume builder for people who want a clean, portable way to write resumes, preview
 them, and export polished PDFs. The public website is built with Astro for fast static pages, while the interactive
 resume editor runs as a React island on `/editor`.
